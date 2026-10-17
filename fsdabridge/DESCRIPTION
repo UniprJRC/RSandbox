@@ -16,11 +16,12 @@ Description: A thin R surface over the shared FSDA Python engine. Calls any
 License: EUPL (>= 1.2)
 Encoding: UTF-8
 Imports:
-    reticulate
+    reticulate,
+    R6
 Suggests:
     testthat (>= 3.0.0)
 SystemRequirements: MATLAB (>= R2025b), FSDA MATLAB toolbox, Python (>=
     3.9), matlabengine (Python package matching the MATLAB release)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1
