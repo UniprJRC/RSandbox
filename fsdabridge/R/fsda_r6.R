@@ -59,6 +59,31 @@ FSDA = R6::R6Class("FSDA",
                 SmallSampleCor = SmallSampleCor)
     },
 
+    #' @description Forward Search on regression data, continued (FSDA `FSReda`).
+    #' @param y Response, n x 1 matrix.
+    #' @param X Predictors, n x p matrix (without the column of ones).
+    #' @param bsb List of units forming the initial subset. Unlike the other
+    #'   arguments, MATLAB requires this one to always be passed; `0` (the
+    #'   default) means a random start of p units.
+    #' @param conflev Confidence levels for the confidence intervals of beta
+    #'   and sigma2. FSDA default: `c(0.95, 0.99)`.
+    #' @param init Search initialization step. FSDA default: `p + 1` if
+    #'   `n < 40`, else `min(3 * p + 1, floor(0.5 * (n + p + 1)))`.
+    #' @param intercept Include a constant term. FSDA default: `TRUE`.
+    #' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+    #' @param tstat `'trad'` or `'scal'` (rescaled) t-statistics to monitor.
+    #'   FSDA default: `'scal'`.
+    #' @param wREML Compute REML weights for the units excluded at each step.
+    #'   FSDA default: `FALSE`.
+    #' @return FSDA's `out` structure, as a named list.
+    FSReda = function(y, X, bsb = 0, conflev = NULL, init = NULL,
+                       intercept = NULL, nocheck = NULL, tstat = NULL,
+                       wREML = NULL) {
+      self$call("FSReda", y, X, bsb, conflev = conflev, init = init,
+                intercept = intercept, nocheck = nocheck, tstat = tstat,
+                wREML = wREML)
+    },
+
     #' @description Shut down the MATLAB session.
     close = function() {
       if (!is.null(private$h)) stop_engine(private$h)
