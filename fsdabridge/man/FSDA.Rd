@@ -12,6 +12,9 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-initialize}{\code{FSDA$new()}}
     \item \href{#method-FSDA-call}{\code{FSDA$call()}}
     \item \href{#method-FSDA-LXS}{\code{FSDA$LXS()}}
+    \item \href{#method-FSDA-FSReda}{\code{FSDA$FSReda()}}
+    \item \href{#method-FSDA-FSR}{\code{FSDA$FSR()}}
+    \item \href{#method-FSDA-resfwdplot}{\code{FSDA$resfwdplot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
   }
@@ -114,6 +117,171 @@ FSDA default: 0.}
   }
   \subsection{Returns}{
     FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSReda"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSReda}{}}}
+\subsection{\code{FSDA$FSReda()}}{
+  Monitor several quantities at each step of the forward
+search (FSDA \code{FSReda}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSReda(
+  y,
+  X,
+  bsb = 0,
+  conflev = NULL,
+  init = NULL,
+  intercept = NULL,
+  nocheck = NULL,
+  tstat = NULL,
+  wREML = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, n x 1 matrix.}
+      \item{\code{X}}{Predictors, n x p matrix (without the column of ones).}
+      \item{\code{bsb}}{List of units forming the initial subset. Unlike the other
+arguments, MATLAB requires this one to always be passed; \code{0} (the
+default) means a random start of p units.}
+      \item{\code{conflev}}{Confidence levels for the confidence intervals of beta
+and sigma2. FSDA default: \code{c(0.95, 0.99)}.}
+      \item{\code{init}}{Search initialization step. FSDA default: \code{p + 1} if
+\code{n < 40}, else \code{min(3 * p + 1, floor(0.5 * (n + p + 1)))}.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+      \item{\code{tstat}}{\code{'trad'} or \code{'scal'} (rescaled) t-statistics to monitor.
+FSDA default: \code{'scal'}.}
+      \item{\code{wREML}}{Compute REML weights for the units excluded at each step.
+FSDA default: \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSR"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSR}{}}}
+\subsection{\code{FSDA$FSR()}}{
+  Forward search in linear regression for outlier detection
+(FSDA \code{FSR}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSR(
+  y,
+  X,
+  h = NULL,
+  nsamp = NULL,
+  lms = NULL,
+  plots = NULL,
+  init = NULL,
+  labeladd = NULL,
+  bivarfit = NULL,
+  multivarfit = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  nameX = NULL,
+  namey = NULL,
+  msg = NULL,
+  nocheck = NULL,
+  intercept = NULL,
+  bonflev = NULL,
+  bsbmfullrank = NULL,
+  threshoutX = NULL,
+  weak = NULL,
+  tag = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, n x 1 matrix.}
+      \item{\code{X}}{Predictors, n x p matrix (without the column of ones).}
+      \item{\code{h}}{Number of observations that determine the LTS/LMS estimator used
+to start the search. FSDA default: \code{floor(0.5 * (n + p + 1))}.}
+      \item{\code{nsamp}}{Number of subsamples for the initial robust fit; 0 = all
+subsets. FSDA default: all subsets if fewer than 1000, otherwise 1000.}
+      \item{\code{lms}}{Initialisation: 1 = LMS, 2 = LTS with concentration steps,
+other scalar = LTS without; a vector of unit numbers starts the search
+from those units. FSDA default: 1.}
+      \item{\code{plots}}{1 = minimum deletion residual plot with envelopes plus the
+yX plot with outliers highlighted; 2 = also the intermediate envelope
+plots; 0 = no plots. FSDA default: 1.}
+      \item{\code{init}}{Step where monitoring of exceedances starts.
+FSDA default: \code{p + 1} if n < 40, else \code{min(3 * p + 1, floor(0.5 * (n + p + 1)))}.}
+      \item{\code{labeladd}}{\code{"1"} adds outlier labels to the yX plot. FSDA default: \code{""}.}
+      \item{\code{bivarfit}}{Superimpose bivariate least squares lines on the yX plot
+(\code{"1"}, \code{"2"}, \code{"i1"}, ...). FSDA default: \code{""}.}
+      \item{\code{multivarfit}}{Superimpose multivariate least squares lines on the
+yX plot (\code{"1"} or \code{"2"}). FSDA default: \code{""}.}
+      \item{\code{xlim}}{Two-element vector for the x axis of the mdr plot.}
+      \item{\code{ylim}}{Two-element vector for the y axis of the mdr plot.}
+      \item{\code{nameX}}{Character vector of labels for the predictors.}
+      \item{\code{namey}}{Label for the response.}
+      \item{\code{msg}}{Print the step where the signal took place. FSDA default: \code{TRUE}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{bonflev}}{Bonferroni-based stopping rule for strongly non-normal data
+(e.g. 0.99). FSDA default: empty (consecutive-exceedance rule).}
+      \item{\code{bsbmfullrank}}{If a subset gives a singular X, force those units to
+enter at the end of the search. FSDA default: \code{TRUE}.}
+      \item{\code{threshoutX}}{Bound the effect of high-leverage units; 1 switches it on.
+FSDA default: empty.}
+      \item{\code{weak}}{Use the 'weak' decision rule to flag outliers. FSDA default: \code{FALSE}.}
+      \item{\code{tag}}{Tags for the plots created.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list (\code{ListOut} holds the
+outliers, \code{mdr} the minimum deletion residual monitoring).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-resfwdplot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-resfwdplot}{}}}
+\subsection{\code{FSDA$resfwdplot()}}{
+  Plot of the monitoring of residuals along the search
+(FSDA \code{resfwdplot}). Produces a MATLAB figure and returns nothing.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$resfwdplot(
+  out,
+  datatooltip = NULL,
+  label = NULL,
+  nameX = NULL,
+  namey = NULL,
+  msg = NULL,
+  tag = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{out}}{Output of \code{FSReda} (only \code{RES} is strictly needed; \code{Un} too
+when \code{datatooltip} is on).}
+      \item{\code{datatooltip}}{Interactive clicking on the plot. FSDA default: 1.}
+      \item{\code{label}}{Row labels for the units.}
+      \item{\code{nameX}}{Labels of the predictors.}
+      \item{\code{namey}}{Label of the response.}
+      \item{\code{msg}}{Display the options used.}
+      \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_resfwd"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly \code{NULL}.
   }
 }
 

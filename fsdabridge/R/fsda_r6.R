@@ -1,5 +1,8 @@
-# One method per FSDA function; every option is a NULL-default argument forwarded
-# with self$call().
+# One method per FSDA function; every option is a NULL-default argument
+# forwarded with self$call() (call() drops any NULL before it reaches MATLAB).
+# Exception: a REQUIRED positional argument that merely has a documented
+# default value (e.g. FSReda's `bsb`, default 0) must keep that real value as
+# its R default, not NULL -- MATLAB errors if it's never passed at all.
 
 #' FSDA session
 #'
@@ -59,7 +62,8 @@ FSDA = R6::R6Class("FSDA",
                 SmallSampleCor = SmallSampleCor)
     },
 
-    #' @description Forward Search on regression data, continued (FSDA `FSReda`).
+    #' @description Monitor several quantities at each step of the forward
+    #'   search (FSDA `FSReda`).
     #' @param y Response, n x 1 matrix.
     #' @param X Predictors, n x p matrix (without the column of ones).
     #' @param bsb List of units forming the initial subset. Unlike the other
