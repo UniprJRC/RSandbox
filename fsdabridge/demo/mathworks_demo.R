@@ -8,6 +8,10 @@
 
 pkgload::load_all(if (file.exists("DESCRIPTION")) "." else "fsdabridge")
 
+# The R6 class structure itself, straight from our code -- per Giacomo's
+# request, to show Emanuele and the MathWorks people directly.
+print(FSDA)
+
 fsda = FSDA$new(fsda_root = Sys.getenv("FSDA_ROOT"))
 
 # Loaded MATLAB-side with FSDA's own load(), same as our other language
