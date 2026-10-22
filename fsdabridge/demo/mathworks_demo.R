@@ -1,6 +1,7 @@
 # Live demo for the MathWorks meeting: LXS -> FSReda -> resfwdplot, run
-# through the FSDA R6 class, on FSDA's own documented example dataset
-# (regression/multiple_regression.txt, as used in FSReda.m's own help example).
+# through the FSDA R6 class, on FSDA's own "Houses Price Dataset"
+# (regression/hprice.txt, as used in FSRBbsb.m's/FSRBeda.m's own help
+# examples: y = price, X = lot size, bedrooms, bathrooms, stories).
 #
 # Run from inside fsdabridge/ (line by line in an R session for the live talk,
 # or as a whole with Rscript to check it still runs clean beforehand):
@@ -31,10 +32,14 @@ fsda_root = path.expand(Sys.getenv(
 fsda = FSDA$new(fsda_root = fsda_root)
 
 data = as.matrix(read.table(
-  file.path(fsda_root, "datasets", "regression", "multiple_regression.txt")
+  file.path(fsda_root, "datasets", "regression", "hprice.txt")
 ))
-y = data[, 4]
-X = data[, 1:3]
+y = data[, 1]
+X = data[, 2:5]
+colnames(X) = c("lot_size", "bedrooms", "bathrooms", "stories")
+cat("Loaded hprice: ", nrow(X), "houses,", ncol(X), "predictors.\n")
+cat("First rows:\n")
+print(head(cbind(price = y, X)))
 
 out  = fsda$LXS(y, X, nsamp = 1000, plots = 0, msg = 0)
 cat("LXS done, initial subset size:", length(out$bs), "\n")
