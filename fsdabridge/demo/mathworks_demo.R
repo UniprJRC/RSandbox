@@ -45,4 +45,6 @@ cat("FSReda done, steps monitored:", ncol(out1$RES), "\n")
 fsda$resfwdplot(out1)
 cat("resfwdplot sent to MATLAB.\n")
 
-fsda$close()
+# Not closed automatically: the plot is a MATLAB window owned by this
+# engine session, so stop_engine()/fsda$close() would kill it immediately.
+# Run fsda$close() yourself, by hand, once you're done showing the plot.
