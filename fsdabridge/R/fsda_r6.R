@@ -26,6 +26,14 @@ FSDA = R6::R6Class("FSDA",
       do.call(fsda_call, c(list(handle = private$h, name = name), args))
     },
 
+    #' @description Evaluate a raw MATLAB expression (e.g. `load('<dataset>.txt')`
+    #'   to load one of FSDA's own datasets the way our other language bridges do).
+    #' @param expr A MATLAB expression as a string.
+    #' @param nargout Number of outputs to request. Default 1.
+    eval_m = function(expr, nargout = 1) {
+      eval_m(private$h, expr, nargout = nargout)
+    },
+
     #' @description Least Median / Least Trimmed Squares regression (FSDA `LXS`).
     #' @param y Response, n x 1 matrix.
     #' @param X Predictors, n x p matrix (without the column of ones).

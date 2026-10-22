@@ -11,6 +11,7 @@ One object = one MATLAB session with FSDA on its path.
   \itemize{
     \item \href{#method-FSDA-initialize}{\code{FSDA$new()}}
     \item \href{#method-FSDA-call}{\code{FSDA$call()}}
+    \item \href{#method-FSDA-eval_m}{\code{FSDA$eval_m()}}
     \item \href{#method-FSDA-LXS}{\code{FSDA$LXS()}}
     \item \href{#method-FSDA-FSReda}{\code{FSDA$FSReda()}}
     \item \href{#method-FSDA-FSR}{\code{FSDA$FSR()}}
@@ -54,6 +55,27 @@ One object = one MATLAB session with FSDA on its path.
     \describe{
       \item{\code{name}}{Function name.}
       \item{\code{...}}{Positional inputs, then name = value options; \code{NULL} options are not sent.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-eval_m"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-eval_m}{}}}
+\subsection{\code{FSDA$eval_m()}}{
+  Evaluate a raw MATLAB expression (e.g. \code{load('<dataset>.txt')}
+to load one of FSDA's own datasets the way our other language bridges do).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$eval_m(expr, nargout = 1)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{expr}}{A MATLAB expression as a string.}
+      \item{\code{nargout}}{Number of outputs to request. Default 1.}
     }
     \if{html}{\out{</div>}}
   }

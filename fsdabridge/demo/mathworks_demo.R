@@ -8,10 +8,12 @@
 
 pkgload::load_all(if (file.exists("DESCRIPTION")) "." else "fsdabridge")
 
-fsda_root = path.expand(Sys.getenv("FSDA_ROOT"))
-fsda = FSDA$new(fsda_root = fsda_root)
+fsda = FSDA$new(fsda_root = Sys.getenv("FSDA_ROOT"))
 
-data = as.matrix(read.table(file.path(fsda_root, "datasets", "regression", "hprice.txt")))
+# Loaded MATLAB-side with FSDA's own load(), same as our other language
+# bridges -- fsda_root's genpath() already put datasets/regression on path.
+fsda$eval_m("load('hprice.txt')", nargout = 0)
+data = fsda$eval_m("hprice")
 y = data[, 1]
 X = data[, 2:5]
 colnames(X) = c("lot_size", "bedrooms", "bathrooms", "stories")
