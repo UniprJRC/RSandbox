@@ -10,8 +10,18 @@
 # set to a Python executable with 'matlabengine' installed, e.g. on this
 # machine: /Users/melarepubblica/Documents/FSDA-bridge/.venv/bin/python3.12
 # Needs the 'pkgload' package (installed with devtools; install.packages("pkgload") alone also works).
+#
+# Locates the package by this file's own path, not the working directory --
+# load_all(".") would otherwise fail if sourced from the RStudio project
+# root (RSandbox/) instead of fsdabridge/.
+this_file = function() {
+  frame = Filter(function(f) !is.null(f$ofile), sys.frames())
+  if (length(frame) > 0) return(normalizePath(frame[[length(frame)]]$ofile))
+  file_arg = grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+  normalizePath(sub("^--file=", "", file_arg))
+}
 
-pkgload::load_all(".")
+pkgload::load_all(dirname(dirname(this_file())))
 
 fsda_root = path.expand(Sys.getenv(
   "FSDA_ROOT",
