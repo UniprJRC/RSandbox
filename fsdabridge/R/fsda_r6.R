@@ -159,7 +159,19 @@ FSDA = R6::R6Class("FSDA",
       self$call("resfwdplot", out, datatooltip = datatooltip, label = label,
                 nameX = nameX, namey = namey, msg = msg, tag = tag,
                 nargout = 0)
+      # The engine doesn't auto-flush MATLAB's graphics queue, so without
+      # this the figure window opens but stays blank until something else
+      # happens to trigger a drawnow.
+      render_figures(private$h)
       invisible(NULL)
+    },
+
+    #' @description Block until every open MATLAB figure window is closed by
+    #'   hand. Useful right after `resfwdplot()` so the plot stays up long
+    #'   enough to look at, instead of risking `close()` tearing it down.
+    wait_for_plot = function() {
+      wait_for_figures(private$h)
+      invisible(self)
     },
 
     #' @description Shut down the MATLAB session.

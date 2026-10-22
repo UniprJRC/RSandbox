@@ -15,6 +15,7 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-FSReda}{\code{FSDA$FSReda()}}
     \item \href{#method-FSDA-FSR}{\code{FSDA$FSR()}}
     \item \href{#method-FSDA-resfwdplot}{\code{FSDA$resfwdplot()}}
+    \item \href{#method-FSDA-wait_for_plot}{\code{FSDA$wait_for_plot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
   }
@@ -282,6 +283,20 @@ when \code{datatooltip} is on).}
   }
   \subsection{Returns}{
     Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-wait_for_plot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-wait_for_plot}{}}}
+\subsection{\code{FSDA$wait_for_plot()}}{
+  Block until every open MATLAB figure window is closed by
+hand. Useful right after \code{resfwdplot()} so the plot stays up long
+enough to look at, instead of risking \code{close()} tearing it down.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$wait_for_plot()}
+    \if{html}{\out{</div>}}
   }
 }
 

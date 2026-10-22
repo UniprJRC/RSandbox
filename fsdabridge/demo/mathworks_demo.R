@@ -48,8 +48,12 @@ out1 = fsda$FSReda(y, X, out$bs)
 cat("FSReda done, steps monitored:", ncol(out1$RES), "\n")
 
 fsda$resfwdplot(out1)
-cat("resfwdplot sent to MATLAB.\n")
+cat("resfwdplot drawn -- window should now show the actual trajectories.\n")
 
-# Not closed automatically: the plot is a MATLAB window owned by this
-# engine session, so stop_engine()/fsda$close() would kill it immediately.
-# Run fsda$close() yourself, by hand, once you're done showing the plot.
+cat("Waiting for the MATLAB plot window to be closed by hand...\n")
+fsda$wait_for_plot()
+
+# Only safe to close the session once wait_for_plot() has returned above --
+# stop_engine()/fsda$close() tears down the figure along with MATLAB itself.
+fsda$close()
+cat("closed.\n")
