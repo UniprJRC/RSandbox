@@ -70,21 +70,21 @@ One object = one MATLAB session with FSDA on its path.
     \preformatted{FSDA$LXS(
   y,
   X,
-  intercept = NULL,
-  nsamp = NULL,
-  h = NULL,
-  bdp = NULL,
-  lms = NULL,
-  rew = NULL,
-  plots = NULL,
-  nocheck = NULL,
-  nomes = NULL,
-  conflev = NULL,
-  conflevrew = NULL,
-  msg = NULL,
-  yxsave = NULL,
-  bonflevoutX = NULL,
-  SmallSampleCor = NULL
+  intercept,
+  nsamp,
+  h,
+  bdp,
+  lms,
+  rew,
+  plots,
+  nocheck,
+  nomes,
+  conflev,
+  conflevrew,
+  msg,
+  yxsave,
+  bonflevoutX,
+  SmallSampleCor
 )}
     \if{html}{\out{</div>}}
   }
@@ -133,26 +133,26 @@ FSDA default: 0.}
     \preformatted{FSDA$FSR(
   y,
   X,
-  h = NULL,
-  nsamp = NULL,
-  lms = NULL,
-  plots = NULL,
-  init = NULL,
-  labeladd = NULL,
-  bivarfit = NULL,
-  multivarfit = NULL,
-  xlim = NULL,
-  ylim = NULL,
-  nameX = NULL,
-  namey = NULL,
-  msg = NULL,
-  nocheck = NULL,
-  intercept = NULL,
-  bonflev = NULL,
-  bsbmfullrank = NULL,
-  threshoutX = NULL,
-  weak = NULL,
-  tag = NULL
+  h,
+  nsamp,
+  lms,
+  plots,
+  init,
+  labeladd,
+  bivarfit,
+  multivarfit,
+  xlim,
+  ylim,
+  nameX,
+  namey,
+  msg,
+  nocheck,
+  intercept,
+  bonflev,
+  bsbmfullrank,
+  threshoutX,
+  weak,
+  tag
 )}
     \if{html}{\out{</div>}}
   }
@@ -214,29 +214,29 @@ silence the initial S estimator.
     \preformatted{FSDA$MMreg(
   y,
   X,
-  intercept = NULL,
-  InitialEst = NULL,
-  eff = NULL,
-  effshape = NULL,
-  rhofunc = NULL,
-  rhofuncparam = NULL,
-  refsteps = NULL,
-  tol = NULL,
-  conflev = NULL,
-  plots = NULL,
-  nocheck = NULL,
-  yxsave = NULL,
-  Smsg = NULL,
-  Snsamp = NULL,
-  Srefsteps = NULL,
-  Sbestr = NULL,
-  Sreftol = NULL,
-  Sminsctol = NULL,
-  Srefstepsbestr = NULL,
-  Sreftolbestr = NULL,
-  Sbdp = NULL,
-  Srhofunc = NULL,
-  Srhofuncparam = NULL
+  intercept,
+  InitialEst,
+  eff,
+  effshape,
+  rhofunc,
+  rhofuncparam,
+  refsteps,
+  tol,
+  conflev,
+  plots,
+  nocheck,
+  yxsave,
+  Smsg,
+  Snsamp,
+  Srefsteps,
+  Sbestr,
+  Sreftol,
+  Sminsctol,
+  Srefstepsbestr,
+  Sreftolbestr,
+  Sbdp,
+  Srhofunc,
+  Srhofuncparam
 )}
     \if{html}{\out{</div>}}
   }
@@ -287,17 +287,7 @@ FSDA default: 0.}
 (FSDA \code{FSReda}). Usually started from a robust subset, e.g. \code{LXS(...)$bs}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{FSDA$FSReda(
-  y,
-  X,
-  bsb,
-  intercept = NULL,
-  init = NULL,
-  tstat = NULL,
-  nocheck = NULL,
-  conflev = NULL,
-  wREML = NULL
-)}
+    \preformatted{FSDA$FSReda(y, X, bsb, intercept, init, tstat, nocheck, conflev, wREML)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -335,18 +325,18 @@ residuals monitored at each step; this is what \code{resfwdplot} draws).
     \if{html}{\out{<div class="r">}}
     \preformatted{FSDA$resfwdplot(
   out,
-  standard = NULL,
-  fground = NULL,
-  bground = NULL,
-  datatooltip = NULL,
-  label = NULL,
-  databrush = NULL,
-  nameX = NULL,
-  namey = NULL,
-  msg = NULL,
-  corres = NULL,
-  movieLength = NULL,
-  tag = NULL
+  standard,
+  fground,
+  bground,
+  datatooltip,
+  label,
+  databrush,
+  nameX,
+  namey,
+  msg,
+  corres,
+  movieLength,
+  tag
 )}
     \if{html}{\out{</div>}}
   }

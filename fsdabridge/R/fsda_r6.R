@@ -1,5 +1,7 @@
-# One method per FSDA function; every option is a NULL-default argument forwarded
-# with self$call().
+# One method per FSDA function. Options are declared WITHOUT defaults: they still
+# autocomplete, and private$forward() sends MATLAB only the arguments the user
+# actually supplied, so FSDA applies its own defaults to the rest. This way no
+# default value has to be known (or trusted) on the R side.
 
 #' FSDA session
 #'
@@ -48,15 +50,11 @@ FSDA = R6::R6Class("FSDA",
     #' @param SmallSampleCor Small sample correction for the reweighting step (0-4).
     #'   FSDA default: 0.
     #' @return FSDA's `out` structure, as a named list.
-    LXS = function(y, X, intercept = NULL, nsamp = NULL, h = NULL, bdp = NULL,
-                   lms = NULL, rew = NULL, plots = NULL, nocheck = NULL, nomes = NULL,
-                   conflev = NULL, conflevrew = NULL, msg = NULL, yxsave = NULL,
-                   bonflevoutX = NULL, SmallSampleCor = NULL) {
-      self$call("LXS", y, X, intercept = intercept, nsamp = nsamp, h = h,
-                bdp = bdp, lms = lms, rew = rew, plots = plots, nocheck = nocheck,
-                nomes = nomes, conflev = conflev, conflevrew = conflevrew,
-                msg = msg, yxsave = yxsave, bonflevoutX = bonflevoutX,
-                SmallSampleCor = SmallSampleCor)
+    LXS = function(y, X, intercept, nsamp, h, bdp,
+                   lms, rew, plots, nocheck, nomes,
+                   conflev, conflevrew, msg, yxsave,
+                   bonflevoutX, SmallSampleCor) {
+      private$forward("LXS", environment(), c("y", "X"))
     },
 
     #' @description Forward search in linear regression for outlier detection
@@ -97,19 +95,13 @@ FSDA = R6::R6Class("FSDA",
     #' @param tag Tags for the plots created.
     #' @return FSDA's `out` structure, as a named list (`ListOut` holds the
     #'   outliers, `mdr` the minimum deletion residual monitoring).
-    FSR = function(y, X, h = NULL, nsamp = NULL, lms = NULL, plots = NULL,
-                   init = NULL, labeladd = NULL, bivarfit = NULL,
-                   multivarfit = NULL, xlim = NULL, ylim = NULL, nameX = NULL,
-                   namey = NULL, msg = NULL, nocheck = NULL, intercept = NULL,
-                   bonflev = NULL, bsbmfullrank = NULL, threshoutX = NULL,
-                   weak = NULL, tag = NULL) {
-      self$call("FSR", y, X, h = h, nsamp = nsamp, lms = lms, plots = plots,
-                init = init, labeladd = labeladd, bivarfit = bivarfit,
-                multivarfit = multivarfit, xlim = xlim, ylim = ylim,
-                nameX = nameX, namey = namey, msg = msg, nocheck = nocheck,
-                intercept = intercept, bonflev = bonflev,
-                bsbmfullrank = bsbmfullrank, threshoutX = threshoutX,
-                weak = weak, tag = tag)
+    FSR = function(y, X, h, nsamp, lms, plots,
+                   init, labeladd, bivarfit,
+                   multivarfit, xlim, ylim, nameX,
+                   namey, msg, nocheck, intercept,
+                   bonflev, bsbmfullrank, threshoutX,
+                   weak, tag) {
+      private$forward("FSR", environment(), c("y", "X"))
     },
 
     #' @description MM-estimator of regression (FSDA `MMreg`). Note that `MMreg`
@@ -144,22 +136,14 @@ FSDA = R6::R6Class("FSDA",
     #' @param Srhofunc Rho function of the S estimator. FSDA default: `"bisquare"`.
     #' @param Srhofuncparam Extra parameters for `Srhofunc`.
     #' @return FSDA's `out` structure, as a named list.
-    MMreg = function(y, X, intercept = NULL, InitialEst = NULL, eff = NULL,
-                     effshape = NULL, rhofunc = NULL, rhofuncparam = NULL,
-                     refsteps = NULL, tol = NULL, conflev = NULL, plots = NULL,
-                     nocheck = NULL, yxsave = NULL, Smsg = NULL, Snsamp = NULL,
-                     Srefsteps = NULL, Sbestr = NULL, Sreftol = NULL,
-                     Sminsctol = NULL, Srefstepsbestr = NULL, Sreftolbestr = NULL,
-                     Sbdp = NULL, Srhofunc = NULL, Srhofuncparam = NULL) {
-      self$call("MMreg", y, X, intercept = intercept, InitialEst = InitialEst,
-                eff = eff, effshape = effshape, rhofunc = rhofunc,
-                rhofuncparam = rhofuncparam, refsteps = refsteps, tol = tol,
-                conflev = conflev, plots = plots, nocheck = nocheck,
-                yxsave = yxsave, Smsg = Smsg, Snsamp = Snsamp,
-                Srefsteps = Srefsteps, Sbestr = Sbestr, Sreftol = Sreftol,
-                Sminsctol = Sminsctol, Srefstepsbestr = Srefstepsbestr,
-                Sreftolbestr = Sreftolbestr, Sbdp = Sbdp, Srhofunc = Srhofunc,
-                Srhofuncparam = Srhofuncparam)
+    MMreg = function(y, X, intercept, InitialEst, eff,
+                     effshape, rhofunc, rhofuncparam,
+                     refsteps, tol, conflev, plots,
+                     nocheck, yxsave, Smsg, Snsamp,
+                     Srefsteps, Sbestr, Sreftol,
+                     Sminsctol, Srefstepsbestr, Sreftolbestr,
+                     Sbdp, Srhofunc, Srhofuncparam) {
+      private$forward("MMreg", environment(), c("y", "X"))
     },
 
     #' @description Forward search for exploratory data analysis in regression
@@ -179,11 +163,9 @@ FSDA = R6::R6Class("FSDA",
     #'   FSDA default: `FALSE`.
     #' @return FSDA's `out` structure, as a named list (`RES` holds the
     #'   residuals monitored at each step; this is what `resfwdplot` draws).
-    FSReda = function(y, X, bsb, intercept = NULL, init = NULL, tstat = NULL,
-                      nocheck = NULL, conflev = NULL, wREML = NULL) {
-      self$call("FSReda", y, X, bsb, intercept = intercept, init = init,
-                tstat = tstat, nocheck = nocheck, conflev = conflev,
-                wREML = wREML)
+    FSReda = function(y, X, bsb, intercept, init, tstat,
+                      nocheck, conflev, wREML) {
+      private$forward("FSReda", environment(), c("y", "X", "bsb"))
     },
 
     #' @description Plot of the monitoring of residuals along the search
@@ -203,17 +185,13 @@ FSDA = R6::R6Class("FSDA",
     #' @param movieLength Length of the movie in seconds. FSDA default: 0.
     #' @param tag Plot tag. FSDA default: `"pl_resfwd"`.
     #' @return Invisibly `NULL`.
-    resfwdplot = function(out, standard = NULL, fground = NULL, bground = NULL,
-                          datatooltip = NULL, label = NULL, databrush = NULL,
-                          nameX = NULL, namey = NULL, msg = NULL, corres = NULL,
-                          movieLength = NULL, tag = NULL) {
+    resfwdplot = function(out, standard, fground, bground,
+                          datatooltip, label, databrush,
+                          nameX, namey, msg, corres,
+                          movieLength, tag) {
       # nargout = 0: the plot is the result; resfwdplot's own output (plot
       # options) is not worth marshalling back.
-      self$call("resfwdplot", out, standard = standard, fground = fground,
-                bground = bground, datatooltip = datatooltip, label = label,
-                databrush = databrush, nameX = nameX, namey = namey, msg = msg,
-                corres = corres, movieLength = movieLength, tag = tag,
-                nargout = 0)
+      private$forward("resfwdplot", environment(), "out", nargout = 0)
       invisible(NULL)
     },
 
@@ -236,6 +214,27 @@ FSDA = R6::R6Class("FSDA",
 
   private = list(
     h = NULL,
+
+    # Forward the arguments the user actually supplied to FSDA function `name`.
+    # env      : the calling method's environment(), so missing() can be checked there
+    # required : positional inputs, in MATLAB order; all must be supplied
+    # Every other supplied argument becomes a name/value option. Arguments the
+    # user left out are not sent at all (an explicit NULL is treated the same).
+    forward = function(name, env, required, nargout = 1) {
+      formal_names = names(formals(sys.function(sys.parent())))
+      supplied = formal_names[!vapply(formal_names, function(n)
+        eval(call("missing", as.name(n)), env), logical(1))]
+      absent = setdiff(required, supplied)
+      if (length(absent) > 0) {
+        stop(name, ": missing required input(s): ", paste(absent, collapse = ", "),
+             call. = FALSE)
+      }
+      args = Filter(Negate(is.null), mget(supplied, envir = env))
+      options = args[setdiff(names(args), required)]
+      do.call(fsda_call, c(list(handle = private$h, name = name),
+                           unname(args[required]), options,
+                           list(nargout = nargout)))
+    },
 
     finalize = function() {
       self$close()
