@@ -126,3 +126,120 @@ NULL
 #' @name resfwdplot
 #' @usage NULL
 NULL
+
+#' Plot of the minimum deletion residual along the search (FSDA `mdrplot`)
+#'
+#' Called as `fsda$mdrplot(...)` on an [FSDA] object; documented here
+#' separately so `?mdrplot` also finds it. See `?FSDA` for the full
+#' argument list. Produces a MATLAB figure and returns nothing.
+#'
+#' @param out Output of `FSReda`.
+#' @param quant Quantiles for which envelopes are drawn.
+#' @param sign 1 = mdr with sign.
+#' @param mplus1 1 = also plot the (m+1)th order statistic.
+#' @param envm Sample size used to draw the envelopes.
+#' @param ncoord `TRUE` if `out$mdr` is in normal coordinates.
+#' @param xlimx Two-element vector, min and max of the x axis.
+#' @param ylimy Two-element vector, min and max of the y axis.
+#' @param lwd Line width of the curve.
+#' @param lwdenv Line width of the envelopes.
+#' @param FontSize Size of the axes labels.
+#' @param SizeAxesNum Size of the axes numbers.
+#' @param tag Plot tag. FSDA default: `"pl_mdr"`.
+#' @param datatooltip Interactive clicking on the plot.
+#' @param databrush Interactive mouse brushing.
+#' @param titl Main title.
+#' @param labx Label of the x axis.
+#' @param laby Label of the y axis.
+#' @param nameX Labels of the predictors.
+#' @param namey Label of the response.
+#' @param label Row labels for the units.
+#' @return Invisibly `NULL`.
+#' @name mdrplot
+#' @usage NULL
+NULL
+
+#' Plot of the trajectories of leverage along the search (FSDA `levfwdplot`)
+#'
+#' Called as `fsda$levfwdplot(...)` on an [FSDA] object; documented here
+#' separately so `?levfwdplot` also finds it. See `?FSDA` for the full
+#' argument list. Produces a MATLAB figure and returns nothing.
+#'
+#' @param out Output of `FSReda`.
+#' @param standard Structure controlling the appearance of the plot.
+#' @param fground Structure controlling the trajectories in foreground.
+#' @param bground Structure controlling the trajectories in background.
+#' @param xground Trajectories to highlight in connection with the x axis.
+#' @param tag Plot tag. FSDA default: `"pl_levfwd"`.
+#' @param datatooltip Interactive clicking on the plot. FSDA default: 1.
+#' @param label Row labels for the units.
+#' @param databrush Interactive mouse brushing.
+#' @param nameX Labels of the predictors.
+#' @param namey Label of the response.
+#' @param msg Display the options used.
+#' @return Invisibly `NULL`.
+#' @name levfwdplot
+#' @usage NULL
+NULL
+
+#' Plot of regression residuals against index number (FSDA `resindexplot`)
+#'
+#' Called as `fsda$resindexplot(...)` on an [FSDA] object; documented here
+#' separately so `?resindexplot` also finds it. See `?FSDA` for the full
+#' argument list. Produces a MATLAB figure and returns nothing.
+#'
+#' @param residuals Vector of residuals, or a fitted structure that
+#'   contains them (e.g. the output of `LXS` or `FSR`).
+#' @param h Axes handle where the plot is drawn.
+#' @param x Values for the x axis instead of the index number.
+#' @param labx Label of the x axis.
+#' @param laby Label of the y axis.
+#' @param numlab Number of points to identify in the plot.
+#' @param conflev Confidence level of the horizontal bands.
+#'   FSDA default: 0.975.
+#' @param title Title of the plot.
+#' @param FontSize Size of the axes labels.
+#' @param SizeAxesNum Size of the axes numbers.
+#' @param xlimx Two-element vector, min and max of the x axis.
+#' @param ylimy Two-element vector, min and max of the y axis.
+#' @param lwdenv Line width of the bands.
+#' @param MarkerSize Size of the markers, in points.
+#' @param MarkerFaceColor Fill colour of the markers.
+#' @param databrush Interactive mouse brushing.
+#' @param tag Plot tag. FSDA default: `"pl_resindex"`.
+#' @param nameX Labels of the predictors.
+#' @param namey Label of the response.
+#' @return Invisibly `NULL`.
+#' @name resindexplot
+#' @usage NULL
+NULL
+
+#' Scatterplot matrix with histograms or boxplots on the diagonal (FSDA `spmplot`)
+#'
+#' Called as `fsda$spmplot(...)` on an [FSDA] object; documented here
+#' separately so `?spmplot` also finds it. See `?FSDA` for the full
+#' argument list. Produces a MATLAB figure and returns nothing.
+#'
+#' @param Y Data matrix, n x v.
+#' @param group Grouping variable, vector with n elements.
+#' @param plo Names, labels, colours and marker types.
+#' @param subsize x axis control in `malfwdplot` (used when brushing).
+#' @param selstep Position of the labels of brushed units in `malfwdplot`.
+#' @param selunit Unit labelling.
+#' @param datatooltip Interactive clicking on the plot.
+#' @param nameY Names of the variables.
+#' @param nameYrot Angle, in degrees, of the variable labels.
+#' @param nameYlength Maximum length of the variable labels.
+#' @param dispopt What to put on the main diagonal: `"hist"` or `"box"`.
+#'   FSDA default: `"hist"`.
+#' @param databrush Interactive mouse brushing.
+#' @param tag Plot tag. FSDA default: `"pl_spm"`.
+#' @param overlay What to superimpose on the panels off the main diagonal.
+#' @param undock Panels to undock and show separately.
+#' @param colorBackground Colour the background of each scatter.
+#' @param typespm Type of scatterplot matrix. FSDA default: `"full"`.
+#' @param order Order of the variables in the matrix.
+#' @return Invisibly `NULL`.
+#' @name spmplot
+#' @usage NULL
+NULL

@@ -1,5 +1,6 @@
 # One method per FSDA function; every option is a NULL-default argument
-# forwarded with self$call() (call() drops any NULL before it reaches MATLAB).
+# forwarded with self$call() (call() drops any NULL option before it reaches
+# MATLAB, and stops on a NULL positional input).
 # Exception: a REQUIRED positional argument that merely has a documented
 # default value (e.g. FSReda's `bsb`, default 0) must keep that real value as
 # its R default, not NULL -- MATLAB errors if it's never passed at all.
@@ -19,11 +20,23 @@ FSDA = R6::R6Class("FSDA",
 
     #' @description Call any FSDA (or MATLAB) function by name.
     #' @param name Function name.
-    #' @param ... Positional inputs, then name = value options; `NULL` options are not sent.
+    #' @param ... Positional inputs, then name = value options. `NULL` options are
+    #'   not sent; a `NULL` positional input is an error.
     call = function(name, ...) {
+      args = list(...)
+      nm = names(args)
+      if (is.null(nm)) nm = rep("", length(args))
+      is_null = vapply(args, is.null, logical(1))
+      # Dropping a NULL positional would shift every later argument one slot left in MATLAB.
+      bad = which(is_null & nm == "")
+      if (length(bad) > 0) {
+        stop(sprintf(
+          "%s: NULL passed as positional argument %s. A positional input cannot be skipped; pass its actual value.",
+          name, paste(bad, collapse = ", ")
+        ), call. = FALSE)
+      }
       # handle and name are passed by name: positionally, R would match an option `h` to `handle`
-      args = Filter(Negate(is.null), list(...))
-      do.call(fsda_call, c(list(handle = private$h, name = name), args))
+      do.call(fsda_call, c(list(handle = private$h, name = name), args[!is_null]))
     },
 
     #' @description Evaluate a raw MATLAB expression (e.g. `load('<dataset>.txt')`
@@ -170,6 +183,153 @@ FSDA = R6::R6Class("FSDA",
       # The engine doesn't auto-flush MATLAB's graphics queue, so without
       # this the figure window opens but stays blank until something else
       # happens to trigger a drawnow.
+      render_figures(private$h)
+      invisible(NULL)
+    },
+
+    #' @description Plot of the minimum deletion residual along the search,
+    #'   with envelopes (FSDA `mdrplot`). Produces a MATLAB figure.
+    #' @param out Output of `FSReda`.
+    #' @param quant Quantiles for which envelopes are drawn.
+    #' @param sign 1 = mdr with sign.
+    #' @param mplus1 1 = also plot the (m+1)th order statistic.
+    #' @param envm Sample size used to draw the envelopes.
+    #' @param ncoord `TRUE` if `out$mdr` is in normal coordinates.
+    #' @param xlimx Two-element vector, min and max of the x axis.
+    #' @param ylimy Two-element vector, min and max of the y axis.
+    #' @param lwd Line width of the curve.
+    #' @param lwdenv Line width of the envelopes.
+    #' @param FontSize Size of the axes labels.
+    #' @param SizeAxesNum Size of the axes numbers.
+    #' @param tag Plot tag. FSDA default: `"pl_mdr"`.
+    #' @param datatooltip Interactive clicking on the plot.
+    #' @param databrush Interactive mouse brushing.
+    #' @param titl Main title.
+    #' @param labx Label of the x axis.
+    #' @param laby Label of the y axis.
+    #' @param nameX Labels of the predictors.
+    #' @param namey Label of the response.
+    #' @param label Row labels for the units.
+    #' @return Invisibly `NULL`.
+    mdrplot = function(out, quant = NULL, sign = NULL, mplus1 = NULL,
+                       envm = NULL, ncoord = NULL, xlimx = NULL, ylimy = NULL,
+                       lwd = NULL, lwdenv = NULL, FontSize = NULL,
+                       SizeAxesNum = NULL, tag = NULL, datatooltip = NULL,
+                       databrush = NULL, titl = NULL, labx = NULL, laby = NULL,
+                       nameX = NULL, namey = NULL, label = NULL) {
+      self$call("mdrplot", out, quant = quant, sign = sign, mplus1 = mplus1,
+                envm = envm, ncoord = ncoord, xlimx = xlimx, ylimy = ylimy,
+                lwd = lwd, lwdenv = lwdenv, FontSize = FontSize,
+                SizeAxesNum = SizeAxesNum, tag = tag, datatooltip = datatooltip,
+                databrush = databrush, titl = titl, labx = labx, laby = laby,
+                nameX = nameX, namey = namey, label = label, nargout = 0)
+      render_figures(private$h)
+      invisible(NULL)
+    },
+
+    #' @description Plot of the trajectories of leverage along the search
+    #'   (FSDA `levfwdplot`). Produces a MATLAB figure.
+    #' @param out Output of `FSReda`.
+    #' @param standard Structure controlling the appearance of the plot.
+    #' @param fground Structure controlling the trajectories in foreground.
+    #' @param bground Structure controlling the trajectories in background.
+    #' @param xground Trajectories to highlight in connection with the x axis.
+    #' @param tag Plot tag. FSDA default: `"pl_levfwd"`.
+    #' @param datatooltip Interactive clicking on the plot. FSDA default: 1.
+    #' @param label Row labels for the units.
+    #' @param databrush Interactive mouse brushing.
+    #' @param nameX Labels of the predictors.
+    #' @param namey Label of the response.
+    #' @param msg Display the options used.
+    #' @return Invisibly `NULL`.
+    levfwdplot = function(out, standard = NULL, fground = NULL, bground = NULL,
+                          xground = NULL, tag = NULL, datatooltip = NULL,
+                          label = NULL, databrush = NULL, nameX = NULL,
+                          namey = NULL, msg = NULL) {
+      self$call("levfwdplot", out, standard = standard, fground = fground,
+                bground = bground, xground = xground, tag = tag,
+                datatooltip = datatooltip, label = label, databrush = databrush,
+                nameX = nameX, namey = namey, msg = msg, nargout = 0)
+      render_figures(private$h)
+      invisible(NULL)
+    },
+
+    #' @description Plot of regression residuals against index number, with
+    #'   confidence bands (FSDA `resindexplot`). Produces a MATLAB figure.
+    #' @param residuals Vector of residuals, or a fitted structure that
+    #'   contains them (e.g. the output of `LXS` or `FSR`).
+    #' @param h Axes handle where the plot is drawn.
+    #' @param x Values for the x axis instead of the index number.
+    #' @param labx Label of the x axis.
+    #' @param laby Label of the y axis.
+    #' @param numlab Number of points to identify in the plot.
+    #' @param conflev Confidence level of the horizontal bands.
+    #'   FSDA default: 0.975.
+    #' @param title Title of the plot.
+    #' @param FontSize Size of the axes labels.
+    #' @param SizeAxesNum Size of the axes numbers.
+    #' @param xlimx Two-element vector, min and max of the x axis.
+    #' @param ylimy Two-element vector, min and max of the y axis.
+    #' @param lwdenv Line width of the bands.
+    #' @param MarkerSize Size of the markers, in points.
+    #' @param MarkerFaceColor Fill colour of the markers.
+    #' @param databrush Interactive mouse brushing.
+    #' @param tag Plot tag. FSDA default: `"pl_resindex"`.
+    #' @param nameX Labels of the predictors.
+    #' @param namey Label of the response.
+    #' @return Invisibly `NULL`.
+    resindexplot = function(residuals, h = NULL, x = NULL, labx = NULL,
+                            laby = NULL, numlab = NULL, conflev = NULL,
+                            title = NULL, FontSize = NULL, SizeAxesNum = NULL,
+                            xlimx = NULL, ylimy = NULL, lwdenv = NULL,
+                            MarkerSize = NULL, MarkerFaceColor = NULL,
+                            databrush = NULL, tag = NULL, nameX = NULL,
+                            namey = NULL) {
+      self$call("resindexplot", residuals, h = h, x = x, labx = labx,
+                laby = laby, numlab = numlab, conflev = conflev, title = title,
+                FontSize = FontSize, SizeAxesNum = SizeAxesNum, xlimx = xlimx,
+                ylimy = ylimy, lwdenv = lwdenv, MarkerSize = MarkerSize,
+                MarkerFaceColor = MarkerFaceColor, databrush = databrush,
+                tag = tag, nameX = nameX, namey = namey, nargout = 0)
+      render_figures(private$h)
+      invisible(NULL)
+    },
+
+    #' @description Scatterplot matrix with histograms or boxplots on the main
+    #'   diagonal (FSDA `spmplot`). Produces a MATLAB figure.
+    #' @param Y Data matrix, n x v.
+    #' @param group Grouping variable, vector with n elements.
+    #' @param plo Names, labels, colours and marker types.
+    #' @param subsize x axis control in `malfwdplot` (used when brushing).
+    #' @param selstep Position of the labels of brushed units in `malfwdplot`.
+    #' @param selunit Unit labelling.
+    #' @param datatooltip Interactive clicking on the plot.
+    #' @param nameY Names of the variables.
+    #' @param nameYrot Angle, in degrees, of the variable labels.
+    #' @param nameYlength Maximum length of the variable labels.
+    #' @param dispopt What to put on the main diagonal: `"hist"` or `"box"`.
+    #'   FSDA default: `"hist"`.
+    #' @param databrush Interactive mouse brushing.
+    #' @param tag Plot tag. FSDA default: `"pl_spm"`.
+    #' @param overlay What to superimpose on the panels off the main diagonal.
+    #' @param undock Panels to undock and show separately.
+    #' @param colorBackground Colour the background of each scatter.
+    #' @param typespm Type of scatterplot matrix. FSDA default: `"full"`.
+    #' @param order Order of the variables in the matrix.
+    #' @return Invisibly `NULL`.
+    spmplot = function(Y, group = NULL, plo = NULL, subsize = NULL,
+                       selstep = NULL, selunit = NULL, datatooltip = NULL,
+                       nameY = NULL, nameYrot = NULL, nameYlength = NULL,
+                       dispopt = NULL, databrush = NULL, tag = NULL,
+                       overlay = NULL, undock = NULL, colorBackground = NULL,
+                       typespm = NULL, order = NULL) {
+      self$call("spmplot", Y, group = group, plo = plo, subsize = subsize,
+                selstep = selstep, selunit = selunit, datatooltip = datatooltip,
+                nameY = nameY, nameYrot = nameYrot, nameYlength = nameYlength,
+                dispopt = dispopt, databrush = databrush, tag = tag,
+                overlay = overlay, undock = undock,
+                colorBackground = colorBackground, typespm = typespm,
+                order = order, nargout = 0)
       render_figures(private$h)
       invisible(NULL)
     },

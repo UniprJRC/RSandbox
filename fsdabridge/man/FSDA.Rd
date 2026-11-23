@@ -16,6 +16,10 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-FSReda}{\code{FSDA$FSReda()}}
     \item \href{#method-FSDA-FSR}{\code{FSDA$FSR()}}
     \item \href{#method-FSDA-resfwdplot}{\code{FSDA$resfwdplot()}}
+    \item \href{#method-FSDA-mdrplot}{\code{FSDA$mdrplot()}}
+    \item \href{#method-FSDA-levfwdplot}{\code{FSDA$levfwdplot()}}
+    \item \href{#method-FSDA-resindexplot}{\code{FSDA$resindexplot()}}
+    \item \href{#method-FSDA-spmplot}{\code{FSDA$spmplot()}}
     \item \href{#method-FSDA-wait_for_plot}{\code{FSDA$wait_for_plot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
@@ -54,7 +58,8 @@ One object = one MATLAB session with FSDA on its path.
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{name}}{Function name.}
-      \item{\code{...}}{Positional inputs, then name = value options; \code{NULL} options are not sent.}
+      \item{\code{...}}{Positional inputs, then name = value options. \code{NULL} options are
+not sent; a \code{NULL} positional input is an error.}
     }
     \if{html}{\out{</div>}}
   }
@@ -300,6 +305,241 @@ when \code{datatooltip} is on).}
       \item{\code{namey}}{Label of the response.}
       \item{\code{msg}}{Display the options used.}
       \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_resfwd"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-mdrplot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-mdrplot}{}}}
+\subsection{\code{FSDA$mdrplot()}}{
+  Plot of the minimum deletion residual along the search,
+with envelopes (FSDA \code{mdrplot}). Produces a MATLAB figure.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$mdrplot(
+  out,
+  quant = NULL,
+  sign = NULL,
+  mplus1 = NULL,
+  envm = NULL,
+  ncoord = NULL,
+  xlimx = NULL,
+  ylimy = NULL,
+  lwd = NULL,
+  lwdenv = NULL,
+  FontSize = NULL,
+  SizeAxesNum = NULL,
+  tag = NULL,
+  datatooltip = NULL,
+  databrush = NULL,
+  titl = NULL,
+  labx = NULL,
+  laby = NULL,
+  nameX = NULL,
+  namey = NULL,
+  label = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{out}}{Output of \code{FSReda}.}
+      \item{\code{quant}}{Quantiles for which envelopes are drawn.}
+      \item{\code{sign}}{1 = mdr with sign.}
+      \item{\code{mplus1}}{1 = also plot the (m+1)th order statistic.}
+      \item{\code{envm}}{Sample size used to draw the envelopes.}
+      \item{\code{ncoord}}{\code{TRUE} if \code{out$mdr} is in normal coordinates.}
+      \item{\code{xlimx}}{Two-element vector, min and max of the x axis.}
+      \item{\code{ylimy}}{Two-element vector, min and max of the y axis.}
+      \item{\code{lwd}}{Line width of the curve.}
+      \item{\code{lwdenv}}{Line width of the envelopes.}
+      \item{\code{FontSize}}{Size of the axes labels.}
+      \item{\code{SizeAxesNum}}{Size of the axes numbers.}
+      \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_mdr"}.}
+      \item{\code{datatooltip}}{Interactive clicking on the plot.}
+      \item{\code{databrush}}{Interactive mouse brushing.}
+      \item{\code{titl}}{Main title.}
+      \item{\code{labx}}{Label of the x axis.}
+      \item{\code{laby}}{Label of the y axis.}
+      \item{\code{nameX}}{Labels of the predictors.}
+      \item{\code{namey}}{Label of the response.}
+      \item{\code{label}}{Row labels for the units.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-levfwdplot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-levfwdplot}{}}}
+\subsection{\code{FSDA$levfwdplot()}}{
+  Plot of the trajectories of leverage along the search
+(FSDA \code{levfwdplot}). Produces a MATLAB figure.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$levfwdplot(
+  out,
+  standard = NULL,
+  fground = NULL,
+  bground = NULL,
+  xground = NULL,
+  tag = NULL,
+  datatooltip = NULL,
+  label = NULL,
+  databrush = NULL,
+  nameX = NULL,
+  namey = NULL,
+  msg = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{out}}{Output of \code{FSReda}.}
+      \item{\code{standard}}{Structure controlling the appearance of the plot.}
+      \item{\code{fground}}{Structure controlling the trajectories in foreground.}
+      \item{\code{bground}}{Structure controlling the trajectories in background.}
+      \item{\code{xground}}{Trajectories to highlight in connection with the x axis.}
+      \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_levfwd"}.}
+      \item{\code{datatooltip}}{Interactive clicking on the plot. FSDA default: 1.}
+      \item{\code{label}}{Row labels for the units.}
+      \item{\code{databrush}}{Interactive mouse brushing.}
+      \item{\code{nameX}}{Labels of the predictors.}
+      \item{\code{namey}}{Label of the response.}
+      \item{\code{msg}}{Display the options used.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-resindexplot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-resindexplot}{}}}
+\subsection{\code{FSDA$resindexplot()}}{
+  Plot of regression residuals against index number, with
+confidence bands (FSDA \code{resindexplot}). Produces a MATLAB figure.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$resindexplot(
+  residuals,
+  h = NULL,
+  x = NULL,
+  labx = NULL,
+  laby = NULL,
+  numlab = NULL,
+  conflev = NULL,
+  title = NULL,
+  FontSize = NULL,
+  SizeAxesNum = NULL,
+  xlimx = NULL,
+  ylimy = NULL,
+  lwdenv = NULL,
+  MarkerSize = NULL,
+  MarkerFaceColor = NULL,
+  databrush = NULL,
+  tag = NULL,
+  nameX = NULL,
+  namey = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{residuals}}{Vector of residuals, or a fitted structure that
+contains them (e.g. the output of \code{LXS} or \code{FSR}).}
+      \item{\code{h}}{Axes handle where the plot is drawn.}
+      \item{\code{x}}{Values for the x axis instead of the index number.}
+      \item{\code{labx}}{Label of the x axis.}
+      \item{\code{laby}}{Label of the y axis.}
+      \item{\code{numlab}}{Number of points to identify in the plot.}
+      \item{\code{conflev}}{Confidence level of the horizontal bands.
+FSDA default: 0.975.}
+      \item{\code{title}}{Title of the plot.}
+      \item{\code{FontSize}}{Size of the axes labels.}
+      \item{\code{SizeAxesNum}}{Size of the axes numbers.}
+      \item{\code{xlimx}}{Two-element vector, min and max of the x axis.}
+      \item{\code{ylimy}}{Two-element vector, min and max of the y axis.}
+      \item{\code{lwdenv}}{Line width of the bands.}
+      \item{\code{MarkerSize}}{Size of the markers, in points.}
+      \item{\code{MarkerFaceColor}}{Fill colour of the markers.}
+      \item{\code{databrush}}{Interactive mouse brushing.}
+      \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_resindex"}.}
+      \item{\code{nameX}}{Labels of the predictors.}
+      \item{\code{namey}}{Label of the response.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-spmplot"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-spmplot}{}}}
+\subsection{\code{FSDA$spmplot()}}{
+  Scatterplot matrix with histograms or boxplots on the main
+diagonal (FSDA \code{spmplot}). Produces a MATLAB figure.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$spmplot(
+  Y,
+  group = NULL,
+  plo = NULL,
+  subsize = NULL,
+  selstep = NULL,
+  selunit = NULL,
+  datatooltip = NULL,
+  nameY = NULL,
+  nameYrot = NULL,
+  nameYlength = NULL,
+  dispopt = NULL,
+  databrush = NULL,
+  tag = NULL,
+  overlay = NULL,
+  undock = NULL,
+  colorBackground = NULL,
+  typespm = NULL,
+  order = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{group}}{Grouping variable, vector with n elements.}
+      \item{\code{plo}}{Names, labels, colours and marker types.}
+      \item{\code{subsize}}{x axis control in \code{malfwdplot} (used when brushing).}
+      \item{\code{selstep}}{Position of the labels of brushed units in \code{malfwdplot}.}
+      \item{\code{selunit}}{Unit labelling.}
+      \item{\code{datatooltip}}{Interactive clicking on the plot.}
+      \item{\code{nameY}}{Names of the variables.}
+      \item{\code{nameYrot}}{Angle, in degrees, of the variable labels.}
+      \item{\code{nameYlength}}{Maximum length of the variable labels.}
+      \item{\code{dispopt}}{What to put on the main diagonal: \code{"hist"} or \code{"box"}.
+FSDA default: \code{"hist"}.}
+      \item{\code{databrush}}{Interactive mouse brushing.}
+      \item{\code{tag}}{Plot tag. FSDA default: \code{"pl_spm"}.}
+      \item{\code{overlay}}{What to superimpose on the panels off the main diagonal.}
+      \item{\code{undock}}{Panels to undock and show separately.}
+      \item{\code{colorBackground}}{Colour the background of each scatter.}
+      \item{\code{typespm}}{Type of scatterplot matrix. FSDA default: \code{"full"}.}
+      \item{\code{order}}{Order of the variables in the matrix.}
     }
     \if{html}{\out{</div>}}
   }
