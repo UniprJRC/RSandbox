@@ -90,7 +90,8 @@ def to_matlab(x):
     ndarray : 0-D -> float; 1-D -> MATLAB row (1 x n); 2-D -> matlab.double as-is.
               (1-D -> row is a *convention*; pass an (n, 1) array for a column.)
     bool    -> bool (MATLAB logical) -- checked before int (bool is an int subclass).
-    int/float -> float.   str -> str (char).   list/tuple of numbers -> row matlab.double.
+    int/float -> float.   str -> str (char).   list/tuple of numbers -> row matlab.double;
+    list/tuple of str -> cell array of char.
     Anything else is passed through untouched (already a matlab.* type, etc.).
     """
     if isinstance(x, np.ndarray):
@@ -107,6 +108,8 @@ def to_matlab(x):
     if isinstance(x, str):
         return x
     if isinstance(x, (list, tuple)):
+        if len(x) > 0 and all(isinstance(v, str) for v in x):
+            return list(x)                  # list of str -> MATLAB cell array of char
         return matlab.double([float(v) for v in x])
     return x
 
