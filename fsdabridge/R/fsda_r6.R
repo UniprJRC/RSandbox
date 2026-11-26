@@ -334,6 +334,205 @@ FSDA = R6::R6Class("FSDA",
       invisible(NULL)
     },
 
+    #' @description Minimum Covariance Determinant estimator (FSDA `mcd`).
+    #' @param Y Data matrix, n x v (observations in rows, variables in columns).
+    #' @param bdp Breakdown point (default 0.5).
+    #' @param bestr Number of best solutions retained (default 5).
+    #' @param betathresh Use the mixture Beta/Rocke threshold instead of chi-squared.
+    #' @param conflev Confidence level for outlier detection (default 0.975).
+    #' @param conflevrew Confidence level for reweighting (defaults to `conflev`).
+    #' @param msg Display timing messages.
+    #' @param nocheck Skip input checks.
+    #' @param nsamp Number of subsamples, 0 for all subsets.
+    #' @param refsteps Refining iterations (default 3).
+    #' @param refstepsbestr Refining iterations for best solutions (default 50).
+    #' @param reftol Refining tolerance (default 1e-6).
+    #' @param reftolbestr Refining tolerance for best solutions (default 1e-8).
+    #' @param restrfactor Restriction factor (default Inf).
+    #' @param smallsamplecor Apply the small-sample correction.
+    #' @param modelT Student-t model degrees of freedom; 0 estimates them.
+    #' @param tolMCD Tolerance for the MCD algorithm.
+    #' @param ysaveRAW Save Y in the raw output.
+    #' @param ysaveREW Save Y in the reweighted output.
+    #' @param plots Plot control passed to FSDA.
+    #' @return FSDA's RAW MCD structure as a named list.
+    mcd = function(Y, bdp = NULL, bestr = NULL, betathresh = NULL,
+                   conflev = NULL, conflevrew = NULL, msg = NULL,
+                   nocheck = NULL, nsamp = NULL, refsteps = NULL,
+                   refstepsbestr = NULL, reftol = NULL, reftolbestr = NULL,
+                   restrfactor = NULL, smallsamplecor = NULL, modelT = NULL,
+                   tolMCD = NULL, ysaveRAW = NULL, ysaveREW = NULL,
+                   plots = NULL) {
+      self$call("mcd", Y, bdp = bdp, bestr = bestr, betathresh = betathresh,
+                conflev = conflev, conflevrew = conflevrew, msg = msg,
+                nocheck = nocheck, nsamp = nsamp, refsteps = refsteps,
+                refstepsbestr = refstepsbestr, reftol = reftol,
+                reftolbestr = reftolbestr, restrfactor = restrfactor,
+                smallsamplecor = smallsamplecor, modelT = modelT,
+                tolMCD = tolMCD, ysaveRAW = ysaveRAW, ysaveREW = ysaveREW,
+                plots = plots)
+    },
+
+    #' @description Forward search for multivariate outlier detection (FSDA `FSM`).
+    #' @param Y Data matrix, n x v.
+    #' @param bonflev Bonferroni threshold for the outlier signal.
+    #' @param crit Criterion used by the signal detection procedure.
+    #' @param init Initial subset size / monitoring start.
+    #' @param m0 Initial subset size.
+    #' @param msg Display progress messages.
+    #' @param nocheck Skip input checks.
+    #' @param rf Resuperimposition factor.
+    #' @param plots Plot control (0 = no plots).
+    #' @return FSDA's FSM result structure as a named list.
+    FSM = function(Y, bonflev = NULL, crit = NULL, init = NULL, m0 = NULL,
+                   msg = NULL, nocheck = NULL, rf = NULL, plots = NULL) {
+      self$call("FSM", Y, bonflev = bonflev, crit = crit, init = init,
+                m0 = m0, msg = msg, nocheck = nocheck, rf = rf, plots = plots)
+    },
+
+    #' @description Forward search in multivariate analysis for exploratory analysis (FSDA `FSMeda`).
+    #' @param Y Data matrix, n x v.
+    #' @param bsb Initial subset of row indices; 0 requests a random start.
+    #' @param init Search initialization step.
+    #' @param plots Plot control (0 = no plots).
+    #' @param msg Display progress messages.
+    #' @param scaled Use scaled Mahalanobis distances.
+    #' @param nocheck Skip input checks.
+    #' @return FSDA's FSMeda monitoring structure as a named list.
+    FSMeda = function(Y, bsb = 0, init = NULL, plots = NULL, msg = NULL,
+                      scaled = NULL, nocheck = NULL) {
+      self$call("FSMeda", Y, bsb, init = init, plots = plots, msg = msg,
+                scaled = scaled, nocheck = nocheck)
+    },
+
+    #' @description Multivariate S estimator of location and scatter (FSDA `Smult`).
+    #' @param Y Data matrix, n x v.
+    #' @param bdp Breakdown point (default 0.5).
+    #' @param nsamp Number of elemental subsets; 0 uses all subsets.
+    #' @param refsteps Refining iterations.
+    #' @param reftol Refining tolerance.
+    #' @param refstepsbestr Refining iterations for each best subset.
+    #' @param reftolbestr Tolerance for refining best subsets.
+    #' @param minsctol Tolerance for the minimum-scale iteration.
+    #' @param bestr Number of best solutions retained.
+    #' @param conflev Confidence level for outlier detection.
+    #' @param nocheck Skip input checks.
+    #' @param plots Plot control (0 = no plots).
+    #' @param msg Display timing messages.
+    #' @param ysave Save Y in the output structure.
+    #' @return FSDA's S-estimator structure as a named list.
+    Smult = function(Y, bdp = NULL, nsamp = NULL, refsteps = NULL,
+                     reftol = NULL, refstepsbestr = NULL, reftolbestr = NULL,
+                     minsctol = NULL, bestr = NULL, conflev = NULL,
+                     nocheck = NULL, plots = NULL, msg = NULL, ysave = NULL) {
+      self$call("Smult", Y, bdp = bdp, nsamp = nsamp, refsteps = refsteps,
+                reftol = reftol, refstepsbestr = refstepsbestr,
+                reftolbestr = reftolbestr, minsctol = minsctol,
+                bestr = bestr, conflev = conflev, nocheck = nocheck,
+                plots = plots, msg = msg, ysave = ysave)
+    },
+
+    #' @description Multivariate MM estimator using an auxiliary S-scale (FSDA `MMmult`).
+    #' @param Y Data matrix, n x v.
+    #' @param InitialEst Optional initial location, shape and scale structure.
+    #' @param Snsamp Number of subsets for the initial S estimator.
+    #' @param Sbdp Breakdown point for the initial S estimator.
+    #' @param Sbestr Number of best initial S solutions.
+    #' @param Sminsctol Tolerance for the initial S scale iteration.
+    #' @param Smsg Display messages during the initial S estimator.
+    #' @param Srefsteps Refining iterations for the initial S estimator.
+    #' @param Sreftol Refining tolerance for the initial S estimator.
+    #' @param Srefstepsbestr Refining iterations for best initial S solutions.
+    #' @param Srhofunc Rho function used by the initial S estimator.
+    #' @param Sreftolbestr Tolerance for best initial S solutions.
+    #' @param eff Target efficiency.
+    #' @param effshape Efficiency used for the shape estimate.
+    #' @param refsteps Refining iterations for the MM estimator.
+    #' @param tol Convergence tolerance.
+    #' @param conflev Confidence level for outlier detection.
+    #' @param plots Plot control (0 = no plots).
+    #' @param nocheck Skip input checks.
+    #' @param ysave Save Y in the output structure.
+    #' @return FSDA's MM-estimator structure as a named list.
+    MMmult = function(Y, InitialEst = NULL, Snsamp = NULL, Sbdp = NULL,
+                      Sbestr = NULL, Sminsctol = NULL, Smsg = NULL,
+                      Srefsteps = NULL, Srefstepsbestr = NULL,
+                      Sreftol = NULL, Sreftolbestr = NULL, Srhofunc = NULL,
+                      eff = NULL, effshape = NULL, refsteps = NULL,
+                      tol = NULL, conflev = NULL, plots = NULL,
+                      nocheck = NULL, ysave = NULL) {
+      self$call("MMmult", Y, InitialEst = InitialEst, Snsamp = Snsamp,
+                Sbdp = Sbdp, Sbestr = Sbestr, Sminsctol = Sminsctol,
+                Smsg = Smsg, Srefsteps = Srefsteps,
+                Srefstepsbestr = Srefstepsbestr, Sreftol = Sreftol,
+                Sreftolbestr = Sreftolbestr, Srhofunc = Srhofunc,
+                eff = eff, effshape = effshape, refsteps = refsteps,
+                tol = tol, conflev = conflev, plots = plots,
+                nocheck = nocheck, ysave = ysave)
+    },
+
+    #' @description Minimum Volume Ellipsoid estimator (FSDA `mve`).
+    #' @param Y Data matrix, n x v.
+    #' @param bdp Breakdown point (default 0.5).
+    #' @param nsamp Number of elemental subsets (default 500).
+    #' @param refsteps Refining iterations (default 3).
+    #' @param reftol Refining tolerance (default 1e-6).
+    #' @param conflev Confidence level for outlier detection (default 0.975).
+    #' @param nocheck Skip input checks.
+    #' @param plots Plot control (0 = no plots).
+    #' @param msg Display timing messages.
+    #' @param ysaveRAW Save Y in the raw output.
+    #' @param ysaveREW Save Y in the reweighted output.
+    #' @return FSDA's RAW MVE structure as a named list.
+    mve = function(Y, bdp = NULL, nsamp = NULL, refsteps = NULL,
+                   reftol = NULL, conflev = NULL, nocheck = NULL,
+                   plots = NULL, msg = NULL, ysaveRAW = NULL, ysaveREW = NULL) {
+      self$call("mve", Y, bdp = bdp, nsamp = nsamp, refsteps = refsteps,
+                reftol = reftol, conflev = conflev, nocheck = nocheck,
+                plots = plots, msg = msg, ysaveRAW = ysaveRAW, ysaveREW = ysaveREW)
+    },
+
+    #' @description Principal Component Analysis on raw data (FSDA `pcaFS`).
+    #' @param Y Data matrix, n x p.
+    #' @param biplot Launch the interactive biplot application.
+    #' @param dispresults Display numerical results.
+    #' @param Latitude Latitude values for observations.
+    #' @param Longitude Longitude values for observations.
+    #' @param NumComponents Number of principal components to retain.
+    #' @param plots Plot control.
+    #' @param robust Use robust PCA.
+    #' @param ShapeFile Polygon shapefile for geographical data.
+    #' @param smartEVchart Use the smart explained-variance chart.
+    #' @param standardize Standardize variables before PCA.
+    #' @param bsb Initial subset for robust PCA.
+    #' @param bdp Breakdown point for robust PCA.
+    #' @return FSDA's PCA result structure as a named list.
+    pcaFS = function(Y, biplot = NULL, dispresults = NULL, Latitude = NULL,
+                     Longitude = NULL, NumComponents = NULL, plots = NULL,
+                     robust = NULL, ShapeFile = NULL, smartEVchart = NULL,
+                     standardize = NULL, bsb = NULL, bdp = NULL) {
+      self$call("pcaFS", Y, biplot = biplot, dispresults = dispresults,
+                Latitude = Latitude, Longitude = Longitude,
+                NumComponents = NumComponents, plots = plots, robust = robust,
+                ShapeFile = ShapeFile, smartEVchart = smartEVchart,
+                standardize = standardize, bsb = bsb, bdp = bdp)
+    },
+
+    #' @description Monitor minimum Mahalanobis distances in the multivariate forward search (FSDA `FSMmmd`).
+    #' @param Y Data matrix, n x v.
+    #' @param bsb Initial subset indices; 0 requests a random start.
+    #' @param bsbsteps Steps at which to save subset membership.
+    #' @param init Step where monitoring starts.
+    #' @param msg Display progress messages.
+    #' @param nocheck Skip input checks.
+    #' @param plots Plot control (0 = no plots).
+    #' @return Matrix monitoring the minimum Mahalanobis distance at each step.
+    FSMmmd = function(Y, bsb = 0, bsbsteps = NULL, init = NULL,
+                      msg = NULL, nocheck = NULL, plots = NULL) {
+      self$call("FSMmmd", Y, bsb, bsbsteps = bsbsteps, init = init,
+                msg = msg, nocheck = nocheck, plots = plots)
+    },
+
     #' @description Block until every open MATLAB figure window is closed by
     #'   hand. Useful right after `resfwdplot()` so the plot stays up long
     #'   enough to look at, instead of risking `close()` tearing it down.

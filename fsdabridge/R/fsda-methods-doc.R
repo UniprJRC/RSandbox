@@ -243,3 +243,180 @@ NULL
 #' @name spmplot
 #' @usage NULL
 NULL
+
+#' Minimum Covariance Determinant estimator (FSDA `mcd`)
+#'
+#' Called as `fsda$mcd(...)` on an [FSDA] object. Returns the raw MCD estimate;
+#' use the MATLAB function directly through `fsda$call()` when additional
+#' MATLAB output arguments are required.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bdp Breakdown point.
+#' @param bestr Number of best solutions retained.
+#' @param betathresh Use the Beta/Rocke outlier threshold.
+#' @param conflev Confidence level for outlier detection.
+#' @param conflevrew Confidence level for reweighting.
+#' @param msg Display timing messages.
+#' @param nocheck Skip input checks.
+#' @param nsamp Number of subsamples.
+#' @param refsteps Refining iterations.
+#' @param refstepsbestr Refining iterations for best solutions.
+#' @param reftol Refining tolerance.
+#' @param reftolbestr Refining tolerance for best solutions.
+#' @param restrfactor Restriction factor.
+#' @param smallsamplecor Apply the small-sample correction.
+#' @param modelT Student-t model degrees of freedom.
+#' @param tolMCD MCD tolerance.
+#' @param ysaveRAW Save Y in the raw output.
+#' @param ysaveREW Save Y in the reweighted output.
+#' @param plots Plot control.
+#' @return FSDA's RAW MCD structure as a named list.
+#' @name mcd
+#' @usage NULL
+NULL
+
+#' Forward search for multivariate outlier detection (FSDA `FSM`)
+#'
+#' Called as `fsda$FSM(...)` on an [FSDA] object.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bonflev Bonferroni threshold.
+#' @param crit Signal detection criterion.
+#' @param init Initial subset size / monitoring start.
+#' @param m0 Initial subset size.
+#' @param msg Display progress messages.
+#' @param nocheck Skip input checks.
+#' @param rf Resuperimposition factor.
+#' @param plots Plot control.
+#' @return FSDA's FSM result structure as a named list.
+#' @name FSM
+#' @usage NULL
+NULL
+
+#' Forward search in multivariate analysis for exploratory analysis (FSDA `FSMeda`)
+#'
+#' Called as `fsda$FSMeda(...)` on an [FSDA] object.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bsb Initial subset indices; 0 requests a random start.
+#' @param init Search initialization step.
+#' @param plots Plot control.
+#' @param msg Display progress messages.
+#' @param scaled Use scaled Mahalanobis distances.
+#' @param nocheck Skip input checks.
+#' @return FSDA's FSMeda monitoring structure as a named list.
+#' @name FSMeda
+#' @usage NULL
+NULL
+
+#' Multivariate S estimator of location and scatter (FSDA `Smult`)
+#'
+#' Called as `fsda$Smult(...)` on an [FSDA] object.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bdp Breakdown point.
+#' @param nsamp Number of elemental subsets.
+#' @param refsteps Refining iterations.
+#' @param reftol Refining tolerance.
+#' @param refstepsbestr Refining iterations for best subsets.
+#' @param reftolbestr Tolerance for best subsets.
+#' @param minsctol Minimum-scale iteration tolerance.
+#' @param bestr Number of best solutions retained.
+#' @param conflev Confidence level for outlier detection.
+#' @param nocheck Skip input checks.
+#' @param plots Plot control.
+#' @param msg Display timing messages.
+#' @param ysave Save Y in the output.
+#' @return FSDA's S-estimator structure as a named list.
+#' @name Smult
+#' @usage NULL
+NULL
+
+#' Multivariate MM estimator using an auxiliary S-scale (FSDA `MMmult`)
+#'
+#' Called as `fsda$MMmult(...)` on an [FSDA] object.
+#'
+#' @param Y Data matrix, n x v.
+#' @param InitialEst Optional initial estimator structure.
+#' @param Snsamp Number of subsets for the initial S estimator.
+#' @param Sbdp Breakdown point for the initial S estimator.
+#' @param Sbestr Number of best initial S solutions.
+#' @param Sminsctol Initial S minimum-scale tolerance.
+#' @param Smsg Initial S messages.
+#' @param Srefsteps Initial S refining iterations.
+#' @param Srefstepsbestr Initial S best-subset refining iterations.
+#' @param Sreftol Initial S refining tolerance.
+#' @param Sreftolbestr Initial S best-subset tolerance.
+#' @param Srhofunc Initial S rho function.
+#' @param eff Target efficiency.
+#' @param effshape Efficiency for the shape estimate.
+#' @param refsteps MM refining iterations.
+#' @param tol Convergence tolerance.
+#' @param conflev Confidence level.
+#' @param plots Plot control.
+#' @param nocheck Skip input checks.
+#' @param ysave Save Y in the output.
+#' @return FSDA's MM-estimator structure as a named list.
+#' @name MMmult
+#' @usage NULL
+NULL
+
+#' Minimum Volume Ellipsoid estimator (FSDA `mve`)
+#'
+#' Called as `fsda$mve(...)` on an [FSDA] object. Returns the raw MVE estimate.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bdp Breakdown point.
+#' @param nsamp Number of elemental subsets.
+#' @param refsteps Refining iterations.
+#' @param reftol Refining tolerance.
+#' @param conflev Confidence level for outlier detection.
+#' @param nocheck Skip input checks.
+#' @param plots Plot control.
+#' @param msg Display timing messages.
+#' @param ysaveRAW Save Y in the raw output.
+#' @param ysaveREW Save Y in the reweighted output.
+#' @return FSDA's RAW MVE structure as a named list.
+#' @name mve
+#' @usage NULL
+NULL
+
+#' Principal Component Analysis on raw data (FSDA `pcaFS`)
+#'
+#' Called as `fsda$pcaFS(...)` on an [FSDA] object.
+#'
+#' @param Y Data matrix, n x p.
+#' @param biplot Launch the interactive biplot application.
+#' @param dispresults Display numerical results.
+#' @param Latitude Latitude values for observations.
+#' @param Longitude Longitude values for observations.
+#' @param NumComponents Number of components to retain.
+#' @param plots Plot control.
+#' @param robust Use robust PCA.
+#' @param ShapeFile Polygon shapefile for geographical data.
+#' @param smartEVchart Use the smart explained-variance chart.
+#' @param standardize Standardize variables before PCA.
+#' @param bsb Initial subset for robust PCA.
+#' @param bdp Breakdown point for robust PCA.
+#' @return FSDA's PCA result structure as a named list.
+#' @name pcaFS
+#' @usage NULL
+NULL
+
+#' Monitor minimum Mahalanobis distances in the multivariate forward search (FSDA `FSMmmd`)
+#'
+#' Called as `fsda$FSMmmd(...)` on an [FSDA] object. Returns the monitoring
+#' matrix for minimum Mahalanobis distance; optional additional MATLAB outputs
+#' can be requested with `fsda$call()`.
+#'
+#' @param Y Data matrix, n x v.
+#' @param bsb Initial subset indices; 0 requests a random start.
+#' @param bsbsteps Steps at which to save subset membership.
+#' @param init Step where monitoring starts.
+#' @param msg Display progress messages.
+#' @param nocheck Skip input checks.
+#' @param plots Plot control.
+#' @return Matrix with the forward-search index and minimum Mahalanobis distance.
+#' @name FSMmmd
+#' @usage NULL
+NULL

@@ -20,3 +20,8 @@ test_that("fsda_call rejects a non-handle without touching Python", {
   expect_error(fsda_call(NULL, "FSR"), "start_engine")
   expect_error(stop_engine(42), "start_engine")
 })
+
+test_that("the multivariate R6 wrapper methods are present offline", {
+  expected = c("mcd", "FSM", "FSMeda", "Smult", "MMmult", "mve", "pcaFS", "FSMmmd")
+  expect_true(all(expected %in% names(FSDA$public_methods)))
+})
