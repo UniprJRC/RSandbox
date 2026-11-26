@@ -20,6 +20,14 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-levfwdplot}{\code{FSDA$levfwdplot()}}
     \item \href{#method-FSDA-resindexplot}{\code{FSDA$resindexplot()}}
     \item \href{#method-FSDA-spmplot}{\code{FSDA$spmplot()}}
+    \item \href{#method-FSDA-mcd}{\code{FSDA$mcd()}}
+    \item \href{#method-FSDA-FSM}{\code{FSDA$FSM()}}
+    \item \href{#method-FSDA-FSMeda}{\code{FSDA$FSMeda()}}
+    \item \href{#method-FSDA-Smult}{\code{FSDA$Smult()}}
+    \item \href{#method-FSDA-MMmult}{\code{FSDA$MMmult()}}
+    \item \href{#method-FSDA-mve}{\code{FSDA$mve()}}
+    \item \href{#method-FSDA-pcaFS}{\code{FSDA$pcaFS()}}
+    \item \href{#method-FSDA-FSMmmd}{\code{FSDA$FSMmmd()}}
     \item \href{#method-FSDA-wait_for_plot}{\code{FSDA$wait_for_plot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
@@ -545,6 +553,384 @@ FSDA default: \code{"hist"}.}
   }
   \subsection{Returns}{
     Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-mcd"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-mcd}{}}}
+\subsection{\code{FSDA$mcd()}}{
+  Minimum Covariance Determinant estimator (FSDA \code{mcd}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$mcd(
+  Y,
+  bdp = NULL,
+  bestr = NULL,
+  betathresh = NULL,
+  conflev = NULL,
+  conflevrew = NULL,
+  msg = NULL,
+  nocheck = NULL,
+  nsamp = NULL,
+  refsteps = NULL,
+  refstepsbestr = NULL,
+  reftol = NULL,
+  reftolbestr = NULL,
+  restrfactor = NULL,
+  smallsamplecor = NULL,
+  modelT = NULL,
+  tolMCD = NULL,
+  ysaveRAW = NULL,
+  ysaveREW = NULL,
+  plots = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v (observations in rows, variables in columns).}
+      \item{\code{bdp}}{Breakdown point (default 0.5).}
+      \item{\code{bestr}}{Number of best solutions retained (default 5).}
+      \item{\code{betathresh}}{Use the mixture Beta/Rocke threshold instead of chi-squared.}
+      \item{\code{conflev}}{Confidence level for outlier detection (default 0.975).}
+      \item{\code{conflevrew}}{Confidence level for reweighting (defaults to \code{conflev}).}
+      \item{\code{msg}}{Display timing messages.}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{nsamp}}{Number of subsamples, 0 for all subsets.}
+      \item{\code{refsteps}}{Refining iterations (default 3).}
+      \item{\code{refstepsbestr}}{Refining iterations for best solutions (default 50).}
+      \item{\code{reftol}}{Refining tolerance (default 1e-6).}
+      \item{\code{reftolbestr}}{Refining tolerance for best solutions (default 1e-8).}
+      \item{\code{restrfactor}}{Restriction factor (default Inf).}
+      \item{\code{smallsamplecor}}{Apply the small-sample correction.}
+      \item{\code{modelT}}{Student-t model degrees of freedom; 0 estimates them.}
+      \item{\code{tolMCD}}{Tolerance for the MCD algorithm.}
+      \item{\code{ysaveRAW}}{Save Y in the raw output.}
+      \item{\code{ysaveREW}}{Save Y in the reweighted output.}
+      \item{\code{plots}}{Plot control passed to FSDA.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's RAW MCD structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSM"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSM}{}}}
+\subsection{\code{FSDA$FSM()}}{
+  Forward search for multivariate outlier detection (FSDA \code{FSM}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSM(
+  Y,
+  bonflev = NULL,
+  crit = NULL,
+  init = NULL,
+  m0 = NULL,
+  msg = NULL,
+  nocheck = NULL,
+  rf = NULL,
+  plots = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{bonflev}}{Bonferroni threshold for the outlier signal.}
+      \item{\code{crit}}{Criterion used by the signal detection procedure.}
+      \item{\code{init}}{Initial subset size / monitoring start.}
+      \item{\code{m0}}{Initial subset size.}
+      \item{\code{msg}}{Display progress messages.}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{rf}}{Resuperimposition factor.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's FSM result structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSMeda"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSMeda}{}}}
+\subsection{\code{FSDA$FSMeda()}}{
+  Forward search in multivariate analysis for exploratory analysis (FSDA \code{FSMeda}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSMeda(
+  Y,
+  bsb = 0,
+  init = NULL,
+  plots = NULL,
+  msg = NULL,
+  scaled = NULL,
+  nocheck = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{bsb}}{Initial subset of row indices; 0 requests a random start.}
+      \item{\code{init}}{Search initialization step.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+      \item{\code{msg}}{Display progress messages.}
+      \item{\code{scaled}}{Use scaled Mahalanobis distances.}
+      \item{\code{nocheck}}{Skip input checks.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's FSMeda monitoring structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-Smult"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-Smult}{}}}
+\subsection{\code{FSDA$Smult()}}{
+  Multivariate S estimator of location and scatter (FSDA \code{Smult}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$Smult(
+  Y,
+  bdp = NULL,
+  nsamp = NULL,
+  refsteps = NULL,
+  reftol = NULL,
+  refstepsbestr = NULL,
+  reftolbestr = NULL,
+  minsctol = NULL,
+  bestr = NULL,
+  conflev = NULL,
+  nocheck = NULL,
+  plots = NULL,
+  msg = NULL,
+  ysave = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{bdp}}{Breakdown point (default 0.5).}
+      \item{\code{nsamp}}{Number of elemental subsets; 0 uses all subsets.}
+      \item{\code{refsteps}}{Refining iterations.}
+      \item{\code{reftol}}{Refining tolerance.}
+      \item{\code{refstepsbestr}}{Refining iterations for each best subset.}
+      \item{\code{reftolbestr}}{Tolerance for refining best subsets.}
+      \item{\code{minsctol}}{Tolerance for the minimum-scale iteration.}
+      \item{\code{bestr}}{Number of best solutions retained.}
+      \item{\code{conflev}}{Confidence level for outlier detection.}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+      \item{\code{msg}}{Display timing messages.}
+      \item{\code{ysave}}{Save Y in the output structure.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's S-estimator structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-MMmult"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-MMmult}{}}}
+\subsection{\code{FSDA$MMmult()}}{
+  Multivariate MM estimator using an auxiliary S-scale (FSDA \code{MMmult}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$MMmult(
+  Y,
+  InitialEst = NULL,
+  Snsamp = NULL,
+  Sbdp = NULL,
+  Sbestr = NULL,
+  Sminsctol = NULL,
+  Smsg = NULL,
+  Srefsteps = NULL,
+  Srefstepsbestr = NULL,
+  Sreftol = NULL,
+  Sreftolbestr = NULL,
+  Srhofunc = NULL,
+  eff = NULL,
+  effshape = NULL,
+  refsteps = NULL,
+  tol = NULL,
+  conflev = NULL,
+  plots = NULL,
+  nocheck = NULL,
+  ysave = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{InitialEst}}{Optional initial location, shape and scale structure.}
+      \item{\code{Snsamp}}{Number of subsets for the initial S estimator.}
+      \item{\code{Sbdp}}{Breakdown point for the initial S estimator.}
+      \item{\code{Sbestr}}{Number of best initial S solutions.}
+      \item{\code{Sminsctol}}{Tolerance for the initial S scale iteration.}
+      \item{\code{Smsg}}{Display messages during the initial S estimator.}
+      \item{\code{Srefsteps}}{Refining iterations for the initial S estimator.}
+      \item{\code{Srefstepsbestr}}{Refining iterations for best initial S solutions.}
+      \item{\code{Sreftol}}{Refining tolerance for the initial S estimator.}
+      \item{\code{Sreftolbestr}}{Tolerance for best initial S solutions.}
+      \item{\code{Srhofunc}}{Rho function used by the initial S estimator.}
+      \item{\code{eff}}{Target efficiency.}
+      \item{\code{effshape}}{Efficiency used for the shape estimate.}
+      \item{\code{refsteps}}{Refining iterations for the MM estimator.}
+      \item{\code{tol}}{Convergence tolerance.}
+      \item{\code{conflev}}{Confidence level for outlier detection.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{ysave}}{Save Y in the output structure.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's MM-estimator structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-mve"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-mve}{}}}
+\subsection{\code{FSDA$mve()}}{
+  Minimum Volume Ellipsoid estimator (FSDA \code{mve}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$mve(
+  Y,
+  bdp = NULL,
+  nsamp = NULL,
+  refsteps = NULL,
+  reftol = NULL,
+  conflev = NULL,
+  nocheck = NULL,
+  plots = NULL,
+  msg = NULL,
+  ysaveRAW = NULL,
+  ysaveREW = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{bdp}}{Breakdown point (default 0.5).}
+      \item{\code{nsamp}}{Number of elemental subsets (default 500).}
+      \item{\code{refsteps}}{Refining iterations (default 3).}
+      \item{\code{reftol}}{Refining tolerance (default 1e-6).}
+      \item{\code{conflev}}{Confidence level for outlier detection (default 0.975).}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+      \item{\code{msg}}{Display timing messages.}
+      \item{\code{ysaveRAW}}{Save Y in the raw output.}
+      \item{\code{ysaveREW}}{Save Y in the reweighted output.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's RAW MVE structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-pcaFS"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-pcaFS}{}}}
+\subsection{\code{FSDA$pcaFS()}}{
+  Principal Component Analysis on raw data (FSDA \code{pcaFS}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$pcaFS(
+  Y,
+  biplot = NULL,
+  dispresults = NULL,
+  Latitude = NULL,
+  Longitude = NULL,
+  NumComponents = NULL,
+  plots = NULL,
+  robust = NULL,
+  ShapeFile = NULL,
+  smartEVchart = NULL,
+  standardize = NULL,
+  bsb = NULL,
+  bdp = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x p.}
+      \item{\code{biplot}}{Launch the interactive biplot application.}
+      \item{\code{dispresults}}{Display numerical results.}
+      \item{\code{Latitude}}{Latitude values for observations.}
+      \item{\code{Longitude}}{Longitude values for observations.}
+      \item{\code{NumComponents}}{Number of principal components to retain.}
+      \item{\code{plots}}{Plot control.}
+      \item{\code{robust}}{Use robust PCA.}
+      \item{\code{ShapeFile}}{Polygon shapefile for geographical data.}
+      \item{\code{smartEVchart}}{Use the smart explained-variance chart.}
+      \item{\code{standardize}}{Standardize variables before PCA.}
+      \item{\code{bsb}}{Initial subset for robust PCA.}
+      \item{\code{bdp}}{Breakdown point for robust PCA.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's PCA result structure as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSMmmd"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSMmmd}{}}}
+\subsection{\code{FSDA$FSMmmd()}}{
+  Monitor minimum Mahalanobis distances in the multivariate forward search (FSDA \code{FSMmmd}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSMmmd(
+  Y,
+  bsb = 0,
+  bsbsteps = NULL,
+  init = NULL,
+  msg = NULL,
+  nocheck = NULL,
+  plots = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{Y}}{Data matrix, n x v.}
+      \item{\code{bsb}}{Initial subset indices; 0 requests a random start.}
+      \item{\code{bsbsteps}}{Steps at which to save subset membership.}
+      \item{\code{init}}{Step where monitoring starts.}
+      \item{\code{msg}}{Display progress messages.}
+      \item{\code{nocheck}}{Skip input checks.}
+      \item{\code{plots}}{Plot control (0 = no plots).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Matrix monitoring the minimum Mahalanobis distance at each step.
   }
 }
 
