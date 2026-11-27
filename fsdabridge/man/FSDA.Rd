@@ -20,6 +20,12 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-levfwdplot}{\code{FSDA$levfwdplot()}}
     \item \href{#method-FSDA-resindexplot}{\code{FSDA$resindexplot()}}
     \item \href{#method-FSDA-spmplot}{\code{FSDA$spmplot()}}
+    \item \href{#method-FSDA-MMreg}{\code{FSDA$MMreg()}}
+    \item \href{#method-FSDA-Sreg}{\code{FSDA$Sreg()}}
+    \item \href{#method-FSDA-FSRaddt}{\code{FSDA$FSRaddt()}}
+    \item \href{#method-FSDA-Score}{\code{FSDA$Score()}}
+    \item \href{#method-FSDA-regressH}{\code{FSDA$regressH()}}
+    \item \href{#method-FSDA-regressB}{\code{FSDA$regressB()}}
     \item \href{#method-FSDA-wait_for_plot}{\code{FSDA$wait_for_plot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
@@ -545,6 +551,358 @@ FSDA default: \code{"hist"}.}
   }
   \subsection{Returns}{
     Invisibly \code{NULL}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-MMreg"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-MMreg}{}}}
+\subsection{\code{FSDA$MMreg()}}{
+  MM estimator of regression (FSDA \code{MMreg}). \code{MMreg} has no \code{msg}
+option and errors on unknown options; use \code{Smsg} to silence the initial
+S estimator.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$MMreg(
+  y,
+  X,
+  intercept = NULL,
+  InitialEst = NULL,
+  eff = NULL,
+  effshape = NULL,
+  rhofunc = NULL,
+  rhofuncparam = NULL,
+  refsteps = NULL,
+  tol = NULL,
+  conflev = NULL,
+  plots = NULL,
+  nocheck = NULL,
+  yxsave = NULL,
+  Smsg = NULL,
+  Snsamp = NULL,
+  Srefsteps = NULL,
+  Sbestr = NULL,
+  Sreftol = NULL,
+  Sminsctol = NULL,
+  Srefstepsbestr = NULL,
+  Sreftolbestr = NULL,
+  Sbdp = NULL,
+  Srhofunc = NULL,
+  Srhofuncparam = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors, n x (p-1) matrix (without the column of ones).}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{InitialEst}}{Starting values: a list with \code{beta} and \code{scale}. FSDA default:
+empty, meaning an S estimator is computed first.}
+      \item{\code{eff}}{Nominal efficiency, between 0.5 and 0.99. FSDA default: 0.95.}
+      \item{\code{effshape}}{1 = efficiency refers to shape, otherwise to location.
+FSDA default: 0.}
+      \item{\code{rhofunc}}{Rho function: \code{"bisquare"}, \code{"optimal"}, \code{"hyperbolic"},
+\code{"hampel"}, \code{"mdpd"} or \code{"AS"}. FSDA default: \code{"bisquare"}.}
+      \item{\code{rhofuncparam}}{Extra parameters for \code{rhofunc}.}
+      \item{\code{refsteps}}{Maximum iterations in the MM loop. FSDA default: 100.}
+      \item{\code{tol}}{Tolerance of the MM loop. FSDA default: 1e-7.}
+      \item{\code{conflev}}{Confidence level to declare outliers. FSDA default: 0.975.}
+      \item{\code{plots}}{1 = plot of robust residuals against index number. FSDA default: 0.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+      \item{\code{yxsave}}{Save \code{y} and \code{X} in the output. FSDA default: 0.}
+      \item{\code{Smsg}}{Messages from the initial S estimator. FSDA default: \code{TRUE}.}
+      \item{\code{Snsamp}}{Subsamples for the S estimator. FSDA default: \code{min(1000, choose(n, p))}.}
+      \item{\code{Srefsteps}}{Refining steps per subsample. FSDA default: 3.}
+      \item{\code{Sbestr}}{Number of best solutions refined further. FSDA default: 5.}
+      \item{\code{Sreftol}}{Tolerance of the refining steps. FSDA default: 1e-6.}
+      \item{\code{Sminsctol}}{Tolerance for the scale iterations. FSDA default: 1e-7.}
+      \item{\code{Srefstepsbestr}}{Refining steps for the best solutions. FSDA default: 50.}
+      \item{\code{Sreftolbestr}}{Tolerance for the best solutions. FSDA default: 1e-8.}
+      \item{\code{Sbdp}}{Breakdown point of the S estimator. FSDA default: 0.5.}
+      \item{\code{Srhofunc}}{Rho function of the S estimator. FSDA default: \code{"bisquare"}.}
+      \item{\code{Srhofuncparam}}{Extra parameters for \code{Srhofunc}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-Sreg"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-Sreg}{}}}
+\subsection{\code{FSDA$Sreg()}}{
+  S estimator of regression (FSDA \code{Sreg}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$Sreg(
+  y,
+  X,
+  intercept = NULL,
+  nsamp = NULL,
+  bdp = NULL,
+  refsteps = NULL,
+  reftol = NULL,
+  refstepsbestr = NULL,
+  reftolbestr = NULL,
+  minsctol = NULL,
+  bestr = NULL,
+  rhofunc = NULL,
+  rhofuncparam = NULL,
+  conflev = NULL,
+  plots = NULL,
+  nocheck = NULL,
+  msg = NULL,
+  yxsave = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors, n x (p-1) matrix (without the column of ones).}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{nsamp}}{Number of subsamples; 0 = all subsets. FSDA default: all subsets
+if fewer than 1000, otherwise 1000.}
+      \item{\code{bdp}}{Breakdown point, greater than 0 and at most 0.5. FSDA default: 0.5.}
+      \item{\code{refsteps}}{Refining iterations in each subsample. FSDA default: 3.}
+      \item{\code{reftol}}{Tolerance of the refining steps. FSDA default: 1e-6.}
+      \item{\code{refstepsbestr}}{Refining iterations for each of the best subsets.
+FSDA default: 50.}
+      \item{\code{reftolbestr}}{Tolerance of the refining steps for the best subsets.
+FSDA default: 1e-8.}
+      \item{\code{minsctol}}{Tolerance for finding the minimum of the scale. FSDA default: 1e-7.}
+      \item{\code{bestr}}{Number of best betas remembered from the subsamples. FSDA default: 5.}
+      \item{\code{rhofunc}}{Rho function: \code{"bisquare"}, \code{"optimal"}, \code{"hyperbolic"},
+\code{"hampel"}, \code{"mdpd"} or \code{"AS"}. FSDA default: \code{"bisquare"}.}
+      \item{\code{rhofuncparam}}{Extra parameters for \code{rhofunc}.}
+      \item{\code{conflev}}{Confidence level to declare outliers. FSDA default: 0.975.}
+      \item{\code{plots}}{1 = plot of robust residuals against index number. FSDA default: 0.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+      \item{\code{msg}}{Display messages on the estimated computing time. FSDA default: \code{TRUE}.}
+      \item{\code{yxsave}}{Save \code{y} and \code{X} in the output. FSDA default: 0.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-FSRaddt"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-FSRaddt}{}}}
+\subsection{\code{FSDA$FSRaddt()}}{
+  Forward search monitoring of the deletion t statistics of each
+predictor (FSDA \code{FSRaddt}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$FSRaddt(
+  y,
+  X,
+  intercept = NULL,
+  DataVars = NULL,
+  h = NULL,
+  nsamp = NULL,
+  lms = NULL,
+  init = NULL,
+  ilr = NULL,
+  plots = NULL,
+  nameX = NULL,
+  lwdenv = NULL,
+  quant = NULL,
+  lwdt = NULL,
+  titl = NULL,
+  labx = NULL,
+  laby = NULL,
+  FontSize = NULL,
+  SizeAxesNum = NULL,
+  xlimx = NULL,
+  ylimy = NULL,
+  nocheck = NULL,
+  msg = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors, n x (p-1) matrix (without the column of ones).}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{DataVars}}{Columns of \code{X} for which deletion t statistics are computed.
+FSDA default: empty, meaning all columns.}
+      \item{\code{h}}{Number of observations that determine the LTS estimator used to start
+the search.}
+      \item{\code{nsamp}}{Number of subsamples for the initial robust fit; 0 = all subsets.}
+      \item{\code{lms}}{Initialisation: 1 = LMS, otherwise LTS; or a vector of unit numbers
+to start the search from. FSDA default: 1.}
+      \item{\code{init}}{Subset size where monitoring starts.}
+      \item{\code{ilr}}{Apply the ilr transformation to compositional data in \code{X}.
+FSDA default: \code{FALSE}.}
+      \item{\code{plots}}{1 = plot of the deletion t statistics. FSDA default: 0.}
+      \item{\code{nameX}}{Labels of the predictors, used in the plot.}
+      \item{\code{lwdenv}}{Line width of the envelopes. FSDA default: 2.}
+      \item{\code{quant}}{Confidence quantiles of the envelopes. FSDA default: \code{c(0.005, 0.995)}.}
+      \item{\code{lwdt}}{Line width of the deletion t statistics. FSDA default: 2.}
+      \item{\code{titl}}{Title of the plot.}
+      \item{\code{labx}}{Label of the x axis. FSDA default: \code{"Subset size m"}.}
+      \item{\code{laby}}{Label of the y axis. FSDA default: \code{"Deletion t statistics"}.}
+      \item{\code{FontSize}}{Font size of the labels. FSDA default: 12.}
+      \item{\code{SizeAxesNum}}{Size of the numbers on the axes. FSDA default: 10.}
+      \item{\code{xlimx}}{Two-element vector, min and max of the x axis.}
+      \item{\code{ylimy}}{Two-element vector, min and max of the y axis.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+      \item{\code{msg}}{Display messages about the subset size. FSDA default: \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list (\code{Tdel} holds the deletion
+t statistics at each step).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-Score"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-Score}{}}}
+\subsection{\code{FSDA$Score()}}{
+  Score test for the Box-Cox transformation of the response
+(FSDA \code{Score}). \code{y} must be positive.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$Score(
+  y,
+  X,
+  intercept = NULL,
+  la = NULL,
+  Lik = NULL,
+  tukey1df = NULL,
+  nocheck = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors, n x (p-1) matrix (without the column of ones).}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{la}}{Values of the transformation parameter lambda to test.
+FSDA default: \code{c(-1, -0.5, 0, 0.5, 1)}.}
+      \item{\code{Lik}}{Also return the likelihood of the augmented model. FSDA default: \code{FALSE}.}
+      \item{\code{tukey1df}}{Also compute Tukey's one degree of freedom test for
+non-additivity. FSDA default: \code{FALSE}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's output structure, as a named list (\code{Score} holds the score
+test for each value of \code{la}).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-regressH"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-regressH}{}}}
+\subsection{\code{FSDA$regressH()}}{
+  Linear regression with a model for the variance (FSDA \code{regressH}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$regressH(
+  y,
+  X,
+  Z,
+  typeH = NULL,
+  intercept = NULL,
+  initialbeta = NULL,
+  initialgamma = NULL,
+  maxiter = NULL,
+  tol = NULL,
+  msgiter = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors in the regression equation, n x (p-1) matrix
+(without the column of ones).}
+      \item{\code{Z}}{Predictors in the skedastic equation: an n x r matrix, or a vector
+of column numbers of \code{X}.}
+      \item{\code{typeH}}{Skedastic function. \code{"har"}: Harvey's form,
+\verb{exp(gamma0 + gamma' z)}. Anything else (FSDA's default): \verb{sigma^2 (1 + exp(gamma0 + gamma' z))}; FSDA's help calls it \code{"arc"}, its code \code{"art"}.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{initialbeta}}{Initial estimate of beta, vector of length p. FSDA default:
+least squares.}
+      \item{\code{initialgamma}}{Initial estimate of gamma, vector of length r + 1.}
+      \item{\code{maxiter}}{Maximum number of iterations. \code{maxiter = 1} gives the two-step
+(FGLS) estimator.}
+      \item{\code{tol}}{Tolerance for convergence.}
+      \item{\code{msgiter}}{Output to display: 0 = nothing, 1 = final estimates and tests,
+more than 1 = also each iteration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-regressB"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-regressB}{}}}
+\subsection{\code{FSDA$regressB()}}{
+  Bayesian linear regression with a conjugate normal-gamma prior
+(FSDA \code{regressB}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$regressB(
+  y,
+  X,
+  beta0,
+  R,
+  tau0,
+  n0,
+  intercept = NULL,
+  bsb = NULL,
+  c = NULL,
+  stats = NULL,
+  conflev = NULL,
+  nocheck = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n1 elements.}
+      \item{\code{X}}{Predictors, n1 x (p-1) matrix (without the column of ones).}
+      \item{\code{beta0}}{Prior mean of beta, a p x 1 matrix such as \code{matrix(0, p, 1)}
+(a plain R vector reaches MATLAB as a row and \code{regressB} fails).}
+      \item{\code{R}}{p x p positive definite matrix for the prior covariance of beta
+(think of it as \verb{X0' X0} from n0 earlier observations).}
+      \item{\code{tau0}}{Prior estimate of tau = 1 / sigma^2.}
+      \item{\code{n0}}{Number of earlier observations the prior is based on.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{bsb}}{Units used to compute the posterior. FSDA default: all units.}
+      \item{\code{c}}{Scalar in (0, 1] that weighs the prior information on beta.}
+      \item{\code{stats}}{1 = also compute Bayesian p-values and HPD intervals.
+FSDA default: 0.}
+      \item{\code{conflev}}{Confidence levels of the HPD intervals (used if \code{stats = 1}).
+FSDA default: \code{c(0.95, 0.99)}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
   }
 }
 

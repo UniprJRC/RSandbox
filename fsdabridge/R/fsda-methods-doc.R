@@ -243,3 +243,190 @@ NULL
 #' @name spmplot
 #' @usage NULL
 NULL
+
+#' MM estimator of regression (FSDA `MMreg`)
+#'
+#' Called as `fsda$MMreg(...)` on an [FSDA] object; documented here
+#' separately so `?MMreg` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors, n x (p-1) matrix (without the column of ones).
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param InitialEst Starting values: a list with `beta` and `scale`. FSDA default:
+#'   empty, meaning an S estimator is computed first.
+#' @param eff Nominal efficiency, between 0.5 and 0.99. FSDA default: 0.95.
+#' @param effshape 1 = efficiency refers to shape, otherwise to location.
+#'   FSDA default: 0.
+#' @param rhofunc Rho function: `"bisquare"`, `"optimal"`, `"hyperbolic"`,
+#'   `"hampel"`, `"mdpd"` or `"AS"`. FSDA default: `"bisquare"`.
+#' @param rhofuncparam Extra parameters for `rhofunc`.
+#' @param refsteps Maximum iterations in the MM loop. FSDA default: 100.
+#' @param tol Tolerance of the MM loop. FSDA default: 1e-7.
+#' @param conflev Confidence level to declare outliers. FSDA default: 0.975.
+#' @param plots 1 = plot of robust residuals against index number. FSDA default: 0.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @param yxsave Save `y` and `X` in the output. FSDA default: 0.
+#' @param Smsg Messages from the initial S estimator. FSDA default: `TRUE`.
+#' @param Snsamp Subsamples for the S estimator. FSDA default: `min(1000, choose(n, p))`.
+#' @param Srefsteps Refining steps per subsample. FSDA default: 3.
+#' @param Sbestr Number of best solutions refined further. FSDA default: 5.
+#' @param Sreftol Tolerance of the refining steps. FSDA default: 1e-6.
+#' @param Sminsctol Tolerance for the scale iterations. FSDA default: 1e-7.
+#' @param Srefstepsbestr Refining steps for the best solutions. FSDA default: 50.
+#' @param Sreftolbestr Tolerance for the best solutions. FSDA default: 1e-8.
+#' @param Sbdp Breakdown point of the S estimator. FSDA default: 0.5.
+#' @param Srhofunc Rho function of the S estimator. FSDA default: `"bisquare"`.
+#' @param Srhofuncparam Extra parameters for `Srhofunc`.
+#' @return FSDA's `out` structure, as a named list.
+#' @name MMreg
+#' @usage NULL
+NULL
+
+#' S estimator of regression (FSDA `Sreg`)
+#'
+#' Called as `fsda$Sreg(...)` on an [FSDA] object; documented here
+#' separately so `?Sreg` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors, n x (p-1) matrix (without the column of ones).
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param nsamp Number of subsamples; 0 = all subsets. FSDA default: all subsets
+#'   if fewer than 1000, otherwise 1000.
+#' @param bdp Breakdown point, greater than 0 and at most 0.5. FSDA default: 0.5.
+#' @param refsteps Refining iterations in each subsample. FSDA default: 3.
+#' @param reftol Tolerance of the refining steps. FSDA default: 1e-6.
+#' @param refstepsbestr Refining iterations for each of the best subsets.
+#'   FSDA default: 50.
+#' @param reftolbestr Tolerance of the refining steps for the best subsets.
+#'   FSDA default: 1e-8.
+#' @param minsctol Tolerance for finding the minimum of the scale. FSDA default: 1e-7.
+#' @param bestr Number of best betas remembered from the subsamples. FSDA default: 5.
+#' @param rhofunc Rho function: `"bisquare"`, `"optimal"`, `"hyperbolic"`,
+#'   `"hampel"`, `"mdpd"` or `"AS"`. FSDA default: `"bisquare"`.
+#' @param rhofuncparam Extra parameters for `rhofunc`.
+#' @param conflev Confidence level to declare outliers. FSDA default: 0.975.
+#' @param plots 1 = plot of robust residuals against index number. FSDA default: 0.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @param msg Display messages on the estimated computing time. FSDA default: `TRUE`.
+#' @param yxsave Save `y` and `X` in the output. FSDA default: 0.
+#' @return FSDA's `out` structure, as a named list.
+#' @name Sreg
+#' @usage NULL
+NULL
+
+#' Deletion t statistics along the forward search (FSDA `FSRaddt`)
+#'
+#' Called as `fsda$FSRaddt(...)` on an [FSDA] object; documented here
+#' separately so `?FSRaddt` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors, n x (p-1) matrix (without the column of ones).
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param DataVars Columns of `X` for which deletion t statistics are computed.
+#'   FSDA default: empty, meaning all columns.
+#' @param h Number of observations that determine the LTS estimator used to start
+#'   the search.
+#' @param nsamp Number of subsamples for the initial robust fit; 0 = all subsets.
+#' @param lms Initialisation: 1 = LMS, otherwise LTS; or a vector of unit numbers
+#'   to start the search from. FSDA default: 1.
+#' @param init Subset size where monitoring starts.
+#' @param ilr Apply the ilr transformation to compositional data in `X`.
+#'   FSDA default: `FALSE`.
+#' @param plots 1 = plot of the deletion t statistics. FSDA default: 0.
+#' @param nameX Labels of the predictors, used in the plot.
+#' @param lwdenv Line width of the envelopes. FSDA default: 2.
+#' @param quant Confidence quantiles of the envelopes. FSDA default: `c(0.005, 0.995)`.
+#' @param lwdt Line width of the deletion t statistics. FSDA default: 2.
+#' @param titl Title of the plot.
+#' @param labx Label of the x axis. FSDA default: `"Subset size m"`.
+#' @param laby Label of the y axis. FSDA default: `"Deletion t statistics"`.
+#' @param FontSize Font size of the labels. FSDA default: 12.
+#' @param SizeAxesNum Size of the numbers on the axes. FSDA default: 10.
+#' @param xlimx Two-element vector, min and max of the x axis.
+#' @param ylimy Two-element vector, min and max of the y axis.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @param msg Display messages about the subset size. FSDA default: `TRUE`.
+#' @return FSDA's `out` structure, as a named list (`Tdel` holds the deletion
+#'   t statistics at each step).
+#' @name FSRaddt
+#' @usage NULL
+NULL
+
+#' Score test for the Box-Cox transformation (FSDA `Score`)
+#'
+#' Called as `fsda$Score(...)` on an [FSDA] object; documented here
+#' separately so `?Score` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors, n x (p-1) matrix (without the column of ones).
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param la Values of the transformation parameter lambda to test.
+#'   FSDA default: `c(-1, -0.5, 0, 0.5, 1)`.
+#' @param Lik Also return the likelihood of the augmented model. FSDA default: `FALSE`.
+#' @param tukey1df Also compute Tukey's one degree of freedom test for
+#'   non-additivity. FSDA default: `FALSE`.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @return FSDA's output structure, as a named list (`Score` holds the score
+#'   test for each value of `la`).
+#' @name Score
+#' @usage NULL
+NULL
+
+#' Heteroskedastic regression (FSDA `regressH`)
+#'
+#' Called as `fsda$regressH(...)` on an [FSDA] object; documented here
+#' separately so `?regressH` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors in the regression equation, n x (p-1) matrix
+#'   (without the column of ones).
+#' @param Z Predictors in the skedastic equation: an n x r matrix, or a vector
+#'   of column numbers of `X`.
+#' @param typeH Skedastic function. `"har"`: Harvey's form,
+#'   `exp(gamma0 + gamma' z)`. Anything else (FSDA's default): `sigma^2 (1 +
+#'   exp(gamma0 + gamma' z))`; FSDA's help calls it `"arc"`, its code `"art"`.
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param initialbeta Initial estimate of beta, vector of length p. FSDA default:
+#'   least squares.
+#' @param initialgamma Initial estimate of gamma, vector of length r + 1.
+#' @param maxiter Maximum number of iterations. `maxiter = 1` gives the two-step
+#'   (FGLS) estimator.
+#' @param tol Tolerance for convergence.
+#' @param msgiter Output to display: 0 = nothing, 1 = final estimates and tests,
+#'   more than 1 = also each iteration.
+#' @return FSDA's `out` structure, as a named list.
+#' @name regressH
+#' @usage NULL
+NULL
+
+#' Bayesian linear regression (FSDA `regressB`)
+#'
+#' Called as `fsda$regressB(...)` on an [FSDA] object; documented here
+#' separately so `?regressB` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n1 elements.
+#' @param X Predictors, n1 x (p-1) matrix (without the column of ones).
+#' @param beta0 Prior mean of beta, a p x 1 matrix such as `matrix(0, p, 1)`
+#'   (a plain R vector reaches MATLAB as a row and `regressB` fails).
+#' @param R p x p positive definite matrix for the prior covariance of beta
+#'   (think of it as `X0' X0` from n0 earlier observations).
+#' @param tau0 Prior estimate of tau = 1 / sigma^2.
+#' @param n0 Number of earlier observations the prior is based on.
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param bsb Units used to compute the posterior. FSDA default: all units.
+#' @param c Scalar in (0, 1] that weighs the prior information on beta.
+#' @param stats 1 = also compute Bayesian p-values and HPD intervals.
+#'   FSDA default: 0.
+#' @param conflev Confidence levels of the HPD intervals (used if `stats = 1`).
+#'   FSDA default: `c(0.95, 0.99)`.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @return FSDA's `out` structure, as a named list.
+#' @name regressB
+#' @usage NULL
+NULL
