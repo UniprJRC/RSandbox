@@ -14,8 +14,12 @@ fsda$eval_m("rng(1)", nargout = 0)
 mm   = fsda$MMreg(y, X, Smsg = 0)                 # MM estimator
 s    = fsda$Sreg(y, X, msg = 0)                   # S estimator
 tdel = fsda$FSRaddt(y, X, plots = 1, msg = 0)     # deletion t statistics, with plot
+sc   = fsda$Score(y, X)                           # Box-Cox score test
+het  = fsda$regressH(y, X, X[, 1, drop = FALSE])  # variance driven by lot size
+bay  = fsda$regressB(y, X, matrix(0, 5, 1), diag(5), 1, 10)  # weak Bayesian prior
 
 print(cbind(MM = as.numeric(mm$beta), S = as.numeric(s$beta)))
+print(sc$Score)
 
 fsda$wait_for_plot()
 fsda$close()

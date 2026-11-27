@@ -354,3 +354,79 @@ NULL
 #' @name FSRaddt
 #' @usage NULL
 NULL
+
+#' Score test for the Box-Cox transformation (FSDA `Score`)
+#'
+#' Called as `fsda$Score(...)` on an [FSDA] object; documented here
+#' separately so `?Score` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors, n x (p-1) matrix (without the column of ones).
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param la Values of the transformation parameter lambda to test.
+#'   FSDA default: `c(-1, -0.5, 0, 0.5, 1)`.
+#' @param Lik Also return the likelihood of the augmented model. FSDA default: `FALSE`.
+#' @param tukey1df Also compute Tukey's one degree of freedom test for
+#'   non-additivity. FSDA default: `FALSE`.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @return FSDA's output structure, as a named list (`Score` holds the score
+#'   test for each value of `la`).
+#' @name Score
+#' @usage NULL
+NULL
+
+#' Heteroskedastic regression (FSDA `regressH`)
+#'
+#' Called as `fsda$regressH(...)` on an [FSDA] object; documented here
+#' separately so `?regressH` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n elements.
+#' @param X Predictors in the regression equation, n x (p-1) matrix
+#'   (without the column of ones).
+#' @param Z Predictors in the skedastic equation: an n x r matrix, or a vector
+#'   of column numbers of `X`.
+#' @param typeH Skedastic function. `"har"`: Harvey's form,
+#'   `exp(gamma0 + gamma' z)`. Anything else (FSDA's default): `sigma^2 (1 +
+#'   exp(gamma0 + gamma' z))`; FSDA's help calls it `"arc"`, its code `"art"`.
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param initialbeta Initial estimate of beta, vector of length p. FSDA default:
+#'   least squares.
+#' @param initialgamma Initial estimate of gamma, vector of length r + 1.
+#' @param maxiter Maximum number of iterations. `maxiter = 1` gives the two-step
+#'   (FGLS) estimator.
+#' @param tol Tolerance for convergence.
+#' @param msgiter Output to display: 0 = nothing, 1 = final estimates and tests,
+#'   more than 1 = also each iteration.
+#' @return FSDA's `out` structure, as a named list.
+#' @name regressH
+#' @usage NULL
+NULL
+
+#' Bayesian linear regression (FSDA `regressB`)
+#'
+#' Called as `fsda$regressB(...)` on an [FSDA] object; documented here
+#' separately so `?regressB` also finds it. See `?FSDA` for the full
+#' argument list.
+#'
+#' @param y Response, vector with n1 elements.
+#' @param X Predictors, n1 x (p-1) matrix (without the column of ones).
+#' @param beta0 Prior mean of beta, a p x 1 matrix such as `matrix(0, p, 1)`
+#'   (a plain R vector reaches MATLAB as a row and `regressB` fails).
+#' @param R p x p positive definite matrix for the prior covariance of beta
+#'   (think of it as `X0' X0` from n0 earlier observations).
+#' @param tau0 Prior estimate of tau = 1 / sigma^2.
+#' @param n0 Number of earlier observations the prior is based on.
+#' @param intercept Include a constant term. FSDA default: `TRUE`.
+#' @param bsb Units used to compute the posterior. FSDA default: all units.
+#' @param c Scalar in (0, 1] that weighs the prior information on beta.
+#' @param stats 1 = also compute Bayesian p-values and HPD intervals.
+#'   FSDA default: 0.
+#' @param conflev Confidence levels of the HPD intervals (used if `stats = 1`).
+#'   FSDA default: `c(0.95, 0.99)`.
+#' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+#' @return FSDA's `out` structure, as a named list.
+#' @name regressB
+#' @usage NULL
+NULL

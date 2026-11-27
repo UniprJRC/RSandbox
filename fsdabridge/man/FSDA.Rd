@@ -23,6 +23,9 @@ One object = one MATLAB session with FSDA on its path.
     \item \href{#method-FSDA-MMreg}{\code{FSDA$MMreg()}}
     \item \href{#method-FSDA-Sreg}{\code{FSDA$Sreg()}}
     \item \href{#method-FSDA-FSRaddt}{\code{FSDA$FSRaddt()}}
+    \item \href{#method-FSDA-Score}{\code{FSDA$Score()}}
+    \item \href{#method-FSDA-regressH}{\code{FSDA$regressH()}}
+    \item \href{#method-FSDA-regressB}{\code{FSDA$regressB()}}
     \item \href{#method-FSDA-wait_for_plot}{\code{FSDA$wait_for_plot()}}
     \item \href{#method-FSDA-close}{\code{FSDA$close()}}
     \item \href{#method-FSDA-clone}{\code{FSDA$clone()}}
@@ -761,6 +764,145 @@ FSDA default: \code{FALSE}.}
   \subsection{Returns}{
     FSDA's \code{out} structure, as a named list (\code{Tdel} holds the deletion
 t statistics at each step).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-Score"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-Score}{}}}
+\subsection{\code{FSDA$Score()}}{
+  Score test for the Box-Cox transformation of the response
+(FSDA \code{Score}). \code{y} must be positive.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$Score(
+  y,
+  X,
+  intercept = NULL,
+  la = NULL,
+  Lik = NULL,
+  tukey1df = NULL,
+  nocheck = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors, n x (p-1) matrix (without the column of ones).}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{la}}{Values of the transformation parameter lambda to test.
+FSDA default: \code{c(-1, -0.5, 0, 0.5, 1)}.}
+      \item{\code{Lik}}{Also return the likelihood of the augmented model. FSDA default: \code{FALSE}.}
+      \item{\code{tukey1df}}{Also compute Tukey's one degree of freedom test for
+non-additivity. FSDA default: \code{FALSE}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's output structure, as a named list (\code{Score} holds the score
+test for each value of \code{la}).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-regressH"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-regressH}{}}}
+\subsection{\code{FSDA$regressH()}}{
+  Linear regression with a model for the variance (FSDA \code{regressH}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$regressH(
+  y,
+  X,
+  Z,
+  typeH = NULL,
+  intercept = NULL,
+  initialbeta = NULL,
+  initialgamma = NULL,
+  maxiter = NULL,
+  tol = NULL,
+  msgiter = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n elements.}
+      \item{\code{X}}{Predictors in the regression equation, n x (p-1) matrix
+(without the column of ones).}
+      \item{\code{Z}}{Predictors in the skedastic equation: an n x r matrix, or a vector
+of column numbers of \code{X}.}
+      \item{\code{typeH}}{Skedastic function. \code{"har"}: Harvey's form,
+\verb{exp(gamma0 + gamma' z)}. Anything else (FSDA's default): \verb{sigma^2 (1 + exp(gamma0 + gamma' z))}; FSDA's help calls it \code{"arc"}, its code \code{"art"}.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{initialbeta}}{Initial estimate of beta, vector of length p. FSDA default:
+least squares.}
+      \item{\code{initialgamma}}{Initial estimate of gamma, vector of length r + 1.}
+      \item{\code{maxiter}}{Maximum number of iterations. \code{maxiter = 1} gives the two-step
+(FGLS) estimator.}
+      \item{\code{tol}}{Tolerance for convergence.}
+      \item{\code{msgiter}}{Output to display: 0 = nothing, 1 = final estimates and tests,
+more than 1 = also each iteration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-FSDA-regressB"></a>}}
+\if{latex}{\out{\hypertarget{method-FSDA-regressB}{}}}
+\subsection{\code{FSDA$regressB()}}{
+  Bayesian linear regression with a conjugate normal-gamma prior
+(FSDA \code{regressB}).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FSDA$regressB(
+  y,
+  X,
+  beta0,
+  R,
+  tau0,
+  n0,
+  intercept = NULL,
+  bsb = NULL,
+  c = NULL,
+  stats = NULL,
+  conflev = NULL,
+  nocheck = NULL
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{y}}{Response, vector with n1 elements.}
+      \item{\code{X}}{Predictors, n1 x (p-1) matrix (without the column of ones).}
+      \item{\code{beta0}}{Prior mean of beta, a p x 1 matrix such as \code{matrix(0, p, 1)}
+(a plain R vector reaches MATLAB as a row and \code{regressB} fails).}
+      \item{\code{R}}{p x p positive definite matrix for the prior covariance of beta
+(think of it as \verb{X0' X0} from n0 earlier observations).}
+      \item{\code{tau0}}{Prior estimate of tau = 1 / sigma^2.}
+      \item{\code{n0}}{Number of earlier observations the prior is based on.}
+      \item{\code{intercept}}{Include a constant term. FSDA default: \code{TRUE}.}
+      \item{\code{bsb}}{Units used to compute the posterior. FSDA default: all units.}
+      \item{\code{c}}{Scalar in (0, 1] that weighs the prior information on beta.}
+      \item{\code{stats}}{1 = also compute Bayesian p-values and HPD intervals.
+FSDA default: 0.}
+      \item{\code{conflev}}{Confidence levels of the HPD intervals (used if \code{stats = 1}).
+FSDA default: \code{c(0.95, 0.99)}.}
+      \item{\code{nocheck}}{Skip the checks on \code{y} and \code{X}. FSDA default: \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    FSDA's \code{out} structure, as a named list.
   }
 }
 

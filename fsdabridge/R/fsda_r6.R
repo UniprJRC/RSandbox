@@ -467,6 +467,78 @@ FSDA = R6::R6Class("FSDA",
                 ylimy = ylimy, nocheck = nocheck, msg = msg)
     },
 
+    #' @description Score test for the Box-Cox transformation of the response
+    #'   (FSDA `Score`). `y` must be positive.
+    #' @param y Response, vector with n elements.
+    #' @param X Predictors, n x (p-1) matrix (without the column of ones).
+    #' @param intercept Include a constant term. FSDA default: `TRUE`.
+    #' @param la Values of the transformation parameter lambda to test.
+    #'   FSDA default: `c(-1, -0.5, 0, 0.5, 1)`.
+    #' @param Lik Also return the likelihood of the augmented model. FSDA default: `FALSE`.
+    #' @param tukey1df Also compute Tukey's one degree of freedom test for
+    #'   non-additivity. FSDA default: `FALSE`.
+    #' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+    #' @return FSDA's output structure, as a named list (`Score` holds the score
+    #'   test for each value of `la`).
+    Score = function(y, X, intercept = NULL, la = NULL, Lik = NULL,
+                     tukey1df = NULL, nocheck = NULL) {
+      self$call("Score", y, X, intercept = intercept, la = la, Lik = Lik,
+                tukey1df = tukey1df, nocheck = nocheck)
+    },
+
+    #' @description Linear regression with a model for the variance (FSDA `regressH`).
+    #' @param y Response, vector with n elements.
+    #' @param X Predictors in the regression equation, n x (p-1) matrix
+    #'   (without the column of ones).
+    #' @param Z Predictors in the skedastic equation: an n x r matrix, or a vector
+    #'   of column numbers of `X`.
+    #' @param typeH Skedastic function. `"har"`: Harvey's form,
+    #'   `exp(gamma0 + gamma' z)`. Anything else (FSDA's default): `sigma^2 (1 +
+    #'   exp(gamma0 + gamma' z))`; FSDA's help calls it `"arc"`, its code `"art"`.
+    #' @param intercept Include a constant term. FSDA default: `TRUE`.
+    #' @param initialbeta Initial estimate of beta, vector of length p. FSDA default:
+    #'   least squares.
+    #' @param initialgamma Initial estimate of gamma, vector of length r + 1.
+    #' @param maxiter Maximum number of iterations. `maxiter = 1` gives the two-step
+    #'   (FGLS) estimator.
+    #' @param tol Tolerance for convergence.
+    #' @param msgiter Output to display: 0 = nothing, 1 = final estimates and tests,
+    #'   more than 1 = also each iteration.
+    #' @return FSDA's `out` structure, as a named list.
+    regressH = function(y, X, Z, typeH = NULL, intercept = NULL,
+                        initialbeta = NULL, initialgamma = NULL,
+                        maxiter = NULL, tol = NULL, msgiter = NULL) {
+      self$call("regressH", y, X, Z, typeH = typeH, intercept = intercept,
+                initialbeta = initialbeta, initialgamma = initialgamma,
+                maxiter = maxiter, tol = tol, msgiter = msgiter)
+    },
+
+    #' @description Bayesian linear regression with a conjugate normal-gamma prior
+    #'   (FSDA `regressB`).
+    #' @param y Response, vector with n1 elements.
+    #' @param X Predictors, n1 x (p-1) matrix (without the column of ones).
+    #' @param beta0 Prior mean of beta, a p x 1 matrix such as `matrix(0, p, 1)`
+    #'   (a plain R vector reaches MATLAB as a row and `regressB` fails).
+    #' @param R p x p positive definite matrix for the prior covariance of beta
+    #'   (think of it as `X0' X0` from n0 earlier observations).
+    #' @param tau0 Prior estimate of tau = 1 / sigma^2.
+    #' @param n0 Number of earlier observations the prior is based on.
+    #' @param intercept Include a constant term. FSDA default: `TRUE`.
+    #' @param bsb Units used to compute the posterior. FSDA default: all units.
+    #' @param c Scalar in (0, 1] that weighs the prior information on beta.
+    #' @param stats 1 = also compute Bayesian p-values and HPD intervals.
+    #'   FSDA default: 0.
+    #' @param conflev Confidence levels of the HPD intervals (used if `stats = 1`).
+    #'   FSDA default: `c(0.95, 0.99)`.
+    #' @param nocheck Skip the checks on `y` and `X`. FSDA default: `FALSE`.
+    #' @return FSDA's `out` structure, as a named list.
+    regressB = function(y, X, beta0, R, tau0, n0, intercept = NULL, bsb = NULL,
+                        c = NULL, stats = NULL, conflev = NULL, nocheck = NULL) {
+      self$call("regressB", y, X, beta0, R, tau0, n0, intercept = intercept,
+                bsb = bsb, c = c, stats = stats, conflev = conflev,
+                nocheck = nocheck)
+    },
+
     #' @description Block until every open MATLAB figure window is closed by
     #'   hand. Useful right after `resfwdplot()` so the plot stays up long
     #'   enough to look at, instead of risking `close()` tearing it down.
